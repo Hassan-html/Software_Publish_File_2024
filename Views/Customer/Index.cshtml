@@ -1,0 +1,112 @@
+﻿@model IEnumerable<SialkotSweet.Models.Tbl_Customer>
+@{
+    ViewBag.Title = "Vendor List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container-fluid p-2">
+    <div class="row">
+        <div class="col-md-2">
+            <a href="@Url.Action("Home","Home")" class="btn btn-dark form-control">Back to Home</a>
+        </div>
+        <div class="col-md-2">
+            <a href="@Url.Action("Create","Customer")" class="btn btn-primary form-control">Add New Customer</a>
+        </div>
+        <div class="col-md-2">
+           
+        </div>
+        <div class="col-md-2">
+            <input type="text" class="form-control" id="MyInput2" onkeyup="myFunction2()" placeholder="Customer Name" />
+        </div>
+        <div class="col-md-3">
+            <input type="text" class="form-control" id="MyInput3" onkeyup="myFunction3()" placeholder="Mobile" />
+        </div>
+    </div>
+    <div class="table mt-3">
+        <table class="table table-bordered table-sm" id="ItemTable">
+            <thead style="background-color:rgba(111, 155, 222, 0.25)">
+                <tr>
+                    <th>Customer Code</th>
+                    <th>Customer Name</th>
+                    <th>Company</th>
+                    <th>Mobile</th>
+                    <th>Address</th>
+                    <th style="display:none">Debit</th>
+                    <th style="display:none">Credit</th>
+                    <th style="display:none">Balance</th>
+                    <th style="display:none">Last Update</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var mode in Model)
+                {
+                <tr>
+                    <td>@mode.CCode</td>
+                    <td>@mode.CustomerName</td>
+                    <td>@mode.CompanyName</td>
+                    <td>@mode.Mobile</td>
+                    <td>@mode.Address</td>
+                    <td style="display:none">@mode.Debit</td>
+                    <td style="display:none">@mode.Credit</td>
+                    <td style="display:none">@mode.Balance</td>
+                    <td style="display:none">@mode.Date</td>
+                    <td>
+                        <a href="@Url.Action("Delete","Customer",new {Id=mode.Id })" class="btn btn-sm btn-danger">Delete</a>
+                        <a href="@Url.Action("Create","Customer",new {Id=mode.Id})" class="btn btn-sm btn-warning">Update</a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<link href="~/EditAbleJs/jquery-editable-select.min.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<script src="~/EditAbleJs/jquery-editable-select.min.js"></script>
+<script>
+    function myFunction2() {
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("MyInput2");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("ItemTable");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[1];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    };
+    function myFunction3() {
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("MyInput3");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("ItemTable");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[2];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    };
+</script>
+

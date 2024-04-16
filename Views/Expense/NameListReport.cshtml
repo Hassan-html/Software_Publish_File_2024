@@ -1,0 +1,118 @@
+﻿@model IEnumerable<SialkotSweet.Models.TblInOutBook>
+@{
+    ViewBag.Title = "Name Expense Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container-fluid p-3">
+    @using (Html.BeginForm("NameListReport", "Expense"))
+    {
+        <div class="row">
+            <div class="col-md-2">
+                @Html.DropDownList("acc", new List<SelectListItem>
+                                          {
+                                             new SelectListItem{ Text="Select Ledger Type", Value = "" },
+                                             new SelectListItem{ Text="Expense", Value = "Expense" },
+                                             new SelectListItem{ Text="Purchase", Value = "Purchase" },
+                                             new SelectListItem{ Text="Sale", Value = "Sale" },
+                                             new SelectListItem{ Text="Salaries", Value = "Salaries" },
+                                             new SelectListItem{ Text="Labour Costing", Value = "Labour Costing" },
+                                             new SelectListItem{ Text="Mentinance", Value = "Mentinance" },
+                                             new SelectListItem{ Text="Others", Value = "Others" },
+                                          }, new { @class = "form-control form-control-sm" })
+            </div>
+            <div class="col-md-2">
+                <input type="text" class="form-control" name="dt1" id="dt1" placeholder="First Date" />
+            </div>
+            <div class="col-md-2">
+                <input type="text" class="form-control" name="dt2" id="dt2" placeholder="Last Date" />
+            </div>
+            <div class="col-md-2">
+                <input type="submit" name="submit" value="Search" class="btn btn-sm btn-info form-control" onclick="search()" />
+            </div>
+            <div class="col-md-2">
+                <input type="button" name="b_print" value="Print" class="btn btn-sm btn-warning ipt form-control" onclick="printdiv('div_print');" />
+            </div>
+            <div class="col-md-2">
+                <a href="@Url.Action("Expense","Expense")" class="btn btn-sm btn-primary form-control">New Ledger</a>
+            </div>
+        </div>
+    }
+    <div class="table mt-3" id="div_print">
+        <div class="col-md-12 hs">
+            <b style="font-size:22px;float:left;">@SialkotSweet.Controllers.SaleController.Receipt_Name()</b><br />
+            <b style="font-size:22px;float:right">LEDGER REPORT</b><br />
+            <b style="float:left">@SialkotSweet.Controllers.SaleController.Address()</b><br /><b>Contact No# @SialkotSweet.Controllers.SaleController.Mobile()  / @SialkotSweet.Controllers.SaleController.Phone() </b>
+            <b style="float:right">Print Date: @DateTime.Now.ToShortDateString()</b><br />
+        </div>
+        <div class="col-md-2 hs" style="float:right">
+            <span style="float:right">No of Invoice's: <b>@Model.Count()</b> </span>
+        </div>
+        <table class="table table-sm table-bordered" id="mytbl">
+            <thead>
+                <tr>
+                    <th>Account</th>
+                    <th>Name</th>
+                    <th>Details</th>
+                    <th>PayIn</th>
+                    <th>PayOut</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody class="mybody">
+                @foreach (var i in Model)
+                {
+                    <tr>
+                        <td>@i.AccountName</td>
+                        <td>@i.NamePerson</td>
+                        <td>@i.Detail</td>
+                        <td>@i.PayIn</td>
+                        <td>@i.PayOut</td>
+                        <td>@i.Date.Value.ToShortDateString()</td>
+                    </tr>
+                }
+                <tr>
+                    <td colspan="3" align="center">
+                        <b>Total Value's: </b>
+                    </td>
+                    <td>
+                        <b>@Model.Sum(x => x.PayIn)</b>
+                    </td>
+                    <td>
+                        <b>@Model.Sum(x => x.PayOut)</b>
+                    </td>
+                    <td>
+                        @{ ViewBag.bal = Convert.ToDecimal(Convert.ToDecimal(Model.Sum(x => x.PayIn)) - Convert.ToDecimal(Model.Sum(x => x.PayOut))); }
+                        <b>@ViewBag.bal</b>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<link href="~/KendoUI/default-ocean-blue.css" rel="stylesheet" />
+<script src="~/KendoUI/jquery.min.js"></script>
+<script src="~/KendoUI/jszip.min.js"></script>
+<script src="~/KendoUI/kendo.all.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $(".hs").hide();
+        $("#dt1").kendoDatePicker({ value: new Date(), format: "yyyy-MM-dd", });
+        $("#dt2").kendoDatePicker({ value: new Date(), format: "yyyy-MM-dd", });
+    });
+    function printdiv(printpage) {
+        $(".hi").hide();
+        $(".hs").show();
+        var headstr = "<html><head><title></title></head><body>";
+        var footstr = "</body>";
+        var newstr = document.all.item(printpage).innerHTML;
+        var oldstr = document.body.innerHTML;
+        document.body.innerHTML = headstr + newstr + footstr;
+        window.print();
+        document.body.innerHTML = oldstr;
+        $(".hs").hide();
+        return false;
+    };
+</script>
+

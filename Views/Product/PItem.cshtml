@@ -1,0 +1,135 @@
+﻿@model SialkotSweet.Models.TblPurchaseItem
+@{
+    ViewBag.Title = "PItem";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    label {
+        font-weight: bold;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <b style="font-size:32px">Add New Product</b>
+        </div>
+        <div class="col-md-3">
+            <a href="@Url.Action("PItemList","Product")" class="btn btn-primary mt-2 form-control">Product List</a>
+        </div>
+        <div class="col-md-3">
+            <a href="@Url.Action("Home","Home")" class="btn btn-dark mt-2 form-control">Back to Home</a>
+        </div>
+    </div>
+    <hr />
+    <p class="text-center"><b>@ViewBag.msg</b></p><br /><br />
+    @using (Html.BeginForm("PItem", "Product", FormMethod.Post, new { onkeydown = "return event.keyCode!=13" }))
+    {
+        @Html.HiddenFor(x => x.Id)
+        @Html.HiddenFor(x => x.Stock)
+        <div class="row">
+            <div class="col-md-3">
+                <label>Enter Barcode</label>
+                @Html.TextBoxFor(x => x.Barcode, new { @class = "form-control", onchange = "one()" })
+            </div>
+            <div class="col-md-3">
+                <label>Enter Batch No#</label>
+                @Html.TextBoxFor(x => x.BatchNo, new { @class = "form-control" })
+            </div>
+            <div class="col-md-3">
+                <label>Enter Item Name</label>
+                @Html.TextBoxFor(x => x.Item, new { @class = "form-control form-control-lg", })
+            </div>
+            <div class="col-md-3">
+                <label>Enter Product Size</label>
+                @Html.TextBoxFor(x => x.Size, new { @class = "form-control" })
+            </div>
+            <div class="col-md-3">
+                <label>Enter Product Colour</label>
+                @Html.TextBoxFor(x => x.Colour, new { @class = "form-control" })
+            </div>
+            <div class="col-md-3">
+                <label>Enter Unit</label>
+                @Html.DropDownListFor(x=>x.Unit, new List<SelectListItem>
+                                                   {
+                                                      new SelectListItem{ Text="PCS", Value = "PCS" },
+                                                      new SelectListItem{ Text="KG", Value = "KG" },
+                                                      new SelectListItem{ Text="METER", Value = "METER" },
+                                                      new SelectListItem{ Text="LITER", Value = "LITER" },
+                                                      new SelectListItem{ Text="YARD", Value = "YARD" },
+                                                      new SelectListItem{ Text="FEET", Value = "FEET" },
+                                                   }, new { @class = "form-control" })
+            </div>
+            <div class="col-md-3">
+                <label>Enter Cost Rate</label>
+                @Html.TextBoxFor(x => x.CostRate, new { @class = "form-control", type = "number", Step = "0.0001" })
+            </div>
+            <div class="col-md-3">
+                <label>Enter Sale Rate</label>
+                @Html.TextBoxFor(x => x.SaleRate, new { @class = "form-control", type = "number", Step = "0.0001" })
+            </div>
+            <div class="col-md-3">
+                <label>Enter Pack Qty</label>
+                @Html.TextBoxFor(x => x.PackQty, new { @class = "form-control", type = "number", Step = "0.0001" })
+            </div>
+            <div class="col-md-3">
+                <label>Enter Per Pack</label>
+                <input type="number" class="form-control" value="0" id="pp" />
+            </div>
+            <div class="col-md-3">
+                <label>Enter Stock In Hand</label>
+                @Html.TextBoxFor(x => x.StockInHand, new { @class = "form-control", type = "number", Step = "0.0001" })
+            </div>
+            <div class="col-md-3">
+                <input type="submit" class="btn btn-success form-control" value="Save & Update Product" style="margin-top:24px;float:right" />
+            </div>
+        </div>
+    }
+
+</div>
+<div class="container-fluid">
+
+</div>
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+@*<link href="~/KendoUI/examples-offline.css" rel="stylesheet" />*@
+<link href="~/KendoUI/default-ocean-blue.css" rel="stylesheet" />
+<script src="~/KendoUI/jquery.min.js"></script>
+<script src="~/KendoUI/jszip.min.js"></script>
+<script src="~/KendoUI/kendo.all.min.js"></script>
+<script>
+    $(document).ready(function () {
+        dataSource1 = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/Product/getPItem",
+                    dataType: "json"
+                }
+            }
+        });
+        $("#Item").kendoAutoComplete({
+            dataSource: dataSource1,
+            filter: "startswith",
+            placeholder: "Item Name...",
+            //separator: ", "
+        });
+        //######################################################################
+        var ppi = document.getElementById("pp");
+        ppi.addEventListener("keyup", function (event) {
+            updateQty();
+        });
+        var pqi = document.getElementById("PackQty");
+        pqi.addEventListener("keyup", function (event) {
+            updateQty();
+        });
+    });
+    function updateQty() {
+        //alert();
+        let _ppi = $("#pp").val();
+        let _ppq = $("#PackQty").val();
+        //alert(_ppi + '-----' + _ppq);
+        let _sum = parseFloat(parseFloat(_ppi) * parseFloat(_ppq));
+        //alert(_sum.toFixed(2));
+        $("#StockInHand").val(_sum.toFixed(2));
+    };
+</script>
+

@@ -1,0 +1,328 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+
+    .h {
+        display: none;
+    }
+
+    #itemtbl {
+        margin-top: 5px;
+    }
+
+    table th {
+        font-size: 14px;
+    }
+
+    table thead td {
+        font-size: 14px;
+    }
+
+        table thead td span {
+            font-size: 12px;
+        }
+        .lblcl{
+            font-weight:bold;
+            font-size:16px;
+        }
+</style>
+
+<input type="hidden" id="saleid" /><input type="hidden" id="uid" />
+<input type="hidden" id="tvalue" /><input type="hidden" id="paytd" />
+<input type="hidden" id="contact" /><input type="hidden" id="time" />
+<div class="container-fluid p-2">
+    <div class="row">
+        <div class="col-md-8" style="background-color:beige;padding:15px 15px;border-radius:10px">
+            <div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <input class="form-control" id="departmentsDropdown" name="departmentsDropdown" placeholder="Select Customer">
+                        <input type="hidden" id="ccode" /><input type="hidden" id="cname" /><input type="hidden" id="comp" />
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" id="date" name="date" placeholder="Select Date">
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control mt-2" id="custn" name="custn" placeholder="Enter Customer Name">
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control mt-2" id="gpass" name="gpass" placeholder="Enter Gate Pass">
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control mt-2" id="vehno" name="vehno" placeholder="Enter Vehicle No">
+                    </div>
+                </div>
+            </div>
+            <div class="table-content" id="div_print">
+                <table class="table table-bordered table-sm table-hover" id="itemtbl">
+                    <thead class="thhide">
+                        <tr>
+                            <td colspan="8" style="border-bottom:1px solid #000000;color:black">
+                                <b style="font-size:28px;float:left;">@SialkotSweet.Controllers.SaleController.Receipt_Name()</b><br /><hr />
+                                @*<center>
+                                    <img src="~/images/alogo.png" width="100%" />
+                                </center>*@
+                                <b style="float:left">@SialkotSweet.Controllers.SaleController.Address()</b>
+                                <b style="float:right">Invoice No#: <span id="tsinv"></span></b>
+                                <br />
+                                <b style="float:left">Contact No# @SialkotSweet.Controllers.SaleController.Mobile()  / @SialkotSweet.Controllers.SaleController.Phone() </b>
+                                <b style="float:right">Print: <span id="ttime"></span></b><br />
+                                <br />
+                            </td>
+                        </tr>
+                    </thead>
+                    <thead class="thhide">
+                        <tr>
+                            <td colspan="3" align="left">
+                                <b>Customer:</b> <span id="tcname"></span> <span id="tname"></span><br />
+                                <b>Contact:</b> <span id="tcont"></span><br />
+                            </td>
+                            <td colspan="3" align="left">
+                                <b>Gate Pass:</b><span id="tgpass"></span><br />
+                                <b>Vehicle#:</b><span id="tvehno"></span><br />
+                                <b>Received By:</b><span id="trby"></span><br />
+                            </td>
+                            <td colspan="2" align="left">
+                                <b>Invoice Date:</b> <span id="tidate"></span><br />
+                                <b>Delivery Time:</b> <span id="tdtime"></span><br />
+                            </td>
+                        </tr>
+                    </thead>
+                    <thead class="" style="background-color:#0e6332;color:#ffffff">
+                        <tr>
+                            <td align="center" style="display:none">ID</td>
+                            <td align="center" style="display:none">SaleID</td>
+                            <td align="center" style="display:none">Barcode</td>
+                            <td align="center">Item</td>
+                            <td align="center">Description</td>
+                            <td align="center">AMeasure</td>
+                            <td align="center">Measure</td>
+                            <td align="center">Pcs</td>
+                            <td align="center">Del.</td>
+                            <td align="center">Rem.</td>
+                            <td align="center">Issue</td>
+                        </tr>
+                    </thead>
+                    <tbody class="itembody"></tbody>
+                    <tfoot class="tfhide" style="border-top:2px solid #000000">
+                        <tr>
+                            <td colspan="5" align="right"><b style="font-size:16px">Total Amount:</b></td>
+                            <td colspan="3" align="right"><b style="font-size:16px"><span id="tamt"></span></b></td>
+                        </tr>
+                        <tr>
+                            <td colspan="5" align="right"><b style="font-size:16px">Discount:</b></td>
+                            <td colspan="3" align="right"><b style="font-size:16px"><span id="tdis"></span></b></td>
+                        </tr>
+                        <tr>
+                            @*<td colspan="4" align="right"><b style="font-size:16px">Prevoius Balance:</b></td>*@
+                            <td colspan="5" align="right"><b style="font-size:16px">Delivery Charges:</b></td>
+                            <td colspan="3" align="right"><b style="font-size:16px"><span id="tpre"></span></b></td>
+                        </tr>
+                        <tr>
+                            <td colspan="5" align="right"><b style="font-size:16px">Net Total:</b></td>
+                            <td colspan="3" align="right"><b style="font-size:16px"><span id="tpay"></span></b></td>
+                        </tr>
+                        <tr>
+                            <td colspan="5" align="right"><b style="font-size:16px">Received Amt:</b></td>
+                            <td colspan="3" align="right"><b style="font-size:16px"><span id="tpayment"></span></b></td>
+                        </tr>
+                        <tr>
+                            <td colspan="5" align="right"><b style="font-size:16px">Net Receiveable:</b></td>
+                            <td colspan="3" align="right"><b style="font-size:16px"><span id="trem"></span></b></td>
+                        </tr>
+                        <tr>
+                            <td colspan="5" align="left">
+                                <b style="font-size:16px;margin-left:77px">Payment Received By:</b> <span id="tprby"></span>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="text-center" onclick="printdiv('div_print');"><b>SUB TOTAL VALUES:</b></h3>
+                </div>
+                <div class="col-md-6">
+                    <label class="lblcl">Gross Total</label>
+                    <input type="number" class="form-control form-control-lg" id="grosstotal" name="grosstotal" readonly>
+                </div>
+                <div class="col-md-6">
+                    <label class="lblcl">Paid</label>
+                    <input type="number" class="form-control form-control-lg" id="payment" name="balance" readonly>
+                </div>
+                <div class="col-md-6">
+                    <label class="lblcl">Balance</label>
+                    <input type="number" class="form-control form-control-lg" id="remamt" name="remamt" readonly>
+                </div>
+                <div class="col-md-6">
+                    <label class="lblcl">Payment</label>
+                    <input type="number" class="form-control form-control-lg" id="rpay" name="remamt">
+                </div>
+                <div class="col-md-12">
+                    <label class="lblcl">Net Receiveable</label>
+                    <input type="number" class="form-control form-control-lg" id="nrec" name="nrec" readonly>
+                </div>
+                <div class="col-md-12">
+                    <label class="lblcl">Delivery Time:</label>
+                    <input type="text" class="form-control form-control-lg" id="dtime" name="dtime">
+                </div>
+                <div class="col-md-12">
+                    <label class="lblcl">Order Received By:</label>
+                    <input type="text" class="form-control form-control-lg" id="rby" name="remamt">
+                </div>
+                <div class="col-md-12">
+                    <label class="lblcl">Payment Received By:</label>
+                    <input type="text" class="form-control form-control-lg" id="prby" name="premamt">
+                </div>
+                <div class="col-md-6">
+                    <a href="#" class="form-control btn btn-lg btn-success" onclick="printdiv('div_print');" style="margin-top:20px;"><i class="fa fa-plus"></i> Save Invoice</a>
+                    @*<input type="submit" name="Save Invoice" value="Save Invoice" saveInvoice() class="form-control btn-success" onclick="saveInvoice()" style="margin-top:20px;" />*@
+                </div>
+                <div class="col-md-6">
+                    <a href="#" class="form-control btn btn-lg btn-danger" onclick="CancelInvoice()" style="margin-top:20px;"><i class="fa fa-trash-o"></i> Delete Invoice</a>
+                    @*<input type="submit" name="Cancel Invoice" value="Delete Invoice" class="form-control btn btn-danger" onclick="CancelInvoice()" style="margin-top:20px;" />*@
+                </div>
+                <div class="col-md-6">
+                    <a href="@Url.Action("Home","Home")" class="btn btn-lg btn-dark form-control" style="margin-top:10px;"><i class="fa fa-exchange"></i> Exit Invoice</a>
+                </div>
+                <div class="col-md-6">
+                    <a href="#" class="btn btn-lg btn-primary form-control" style="margin-top:10px;" onclick="Refresh()"><i class="fa fa-refresh"></i> Refresh Invoice</a>
+                </div>
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-lg btn-warning form-control" data-bs-toggle="modal" data-bs-target="#myModal" style="margin-top:10px;"><i class="fa fa-pencil-square-o"></i> Edit Previous Invoice's</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-body xyz">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label><b>Update Last 50 Invoice's</b></label>
+                        <input type="text" class="form-control" id="editinvd" name="editinv" placeholder="Select Invoice's">
+                    </div>
+                    <div class="col-md-6">
+                        <label><b>Customer Balance Invoice's</b></label>
+                        <input type="text" class="form-control" id="cbinv" name="cbinv" placeholder="Select Invoice's">
+                    </div>
+                    <div class="col-md-3 mt-2">
+                        <input type="text" id="ecname" class="form-control" placeholder="Select Customer" />
+                    </div>
+                    <div class="col-md-3 mt-2">
+                        <input type="text" id="fdate" class="form-control" placeholder="Select First Date" />
+                    </div>
+                    <div class="col-md-3 mt-2">
+                        <input type="text" id="ldate" class="form-control" placeholder="Select Last Date" />
+                    </div>
+                    <div class="col-md-3 mt-2">
+                        <input type="submit" value="Search" class="btn btn-primary form-control" onclick="SearchloadData()" />
+                    </div>
+                </div>
+                <div class="table-content mt-2">
+                    <table class="table table-sm table-bordered" id="stbl">
+                        <thead id="header-fixed">
+                            <tr>
+                                <th>Inv#</th>
+                                <th>Date</th>
+                                <th>Customer</th>
+                                <th>Gpass#</th>
+                                <th>Veh#</th>
+                                <th>Rec.By</th>
+                                <th>Total</th>
+                                <th>Paid</th>
+                                <th>Balance</th>
+                                <th>Payment</th>
+                                <th>Net_Balance</th>
+                            </tr>
+                        </thead>
+                        <tbody class="spobody"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .xyz {
+        height: 650px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
+
+    #stbl thead tr th {
+        font-size: 14px;
+    }
+
+    .spobody tr td {
+        font-size: 12px;
+    }
+    /*table th {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        background: #fff;
+    }*/
+</style>
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<script src="~/JsFiles/saleLedger.js"></script>
+<link href="~/KendoUI/examples-offline.css" rel="stylesheet" />
+<link href="~/KendoUI/default-ocean-blue.css" rel="stylesheet" />
+<script src="~/KendoUI/jquery.min.js"></script>
+<script src="~/KendoUI/jszip.min.js"></script>
+<script src="~/KendoUI/kendo.all.min.js"></script>
+<script>
+    $(document).ready(function () {
+        
+        //$('#myModal').modal({ backdrop: 'static', keyboard: false }, 'show');
+        $(".thhide").hide();//thhide Header Hide
+        $(".tfhide").hide();//tfhide footer Hide
+        setInterval(function () {
+            var today = new Date();
+            var date = today.getDate() + '/' + (today.getMonth() + 1) + '/' + today.getFullYear();
+            var time = today.getHours() % 12 + ":" + today.getMinutes() + ":" + today.getSeconds();
+            var dateTime = time;
+            $("#time").val(dateTime);
+        }, 1000);
+    });
+    function myFunctions() {
+        //alert();
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("vnamev");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("potbl");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[1];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    };
+
+</script>
+

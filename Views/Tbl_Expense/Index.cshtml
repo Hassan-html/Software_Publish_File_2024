@@ -1,0 +1,297 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+@using System.Data;
+@model DataSet
+<link href="~/css/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Scripts/angular.js"></script>
+<script src="~/Scripts/angular.min.js"></script>
+<script src="~/CustomScript/expenseScript.js"></script>
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+<div ng-app="saleApp" ng-controller="saleCtrl">
+    <div class="row container-fluid" style="margin-top:-30px">
+        <div class="col-md-3">
+            <h3 class="text-light" style="margin-top:-5px"><b>Expense Management </b></h3>
+        </div>
+        <div class="col-md-4">
+            <ul class="nav nav-pills">
+                <li>
+                    <a href="@Url.Action("Home","Home")" class="btn btn-danger btn-sm">
+                        <i class="fa fa-home"></i> Home
+                    </a>
+                </li>
+                <li>&emsp;</li>
+                <li>
+                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Add Expense
+                    </button>
+                </li>
+                <li>&emsp;</li>
+                <li>
+                    <button type="button" class="btn btn-dark btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal1">
+                        Expense List
+                    </button>
+                </li>
+                @*<li><a href="#" class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal1"><i class="fa fa-plus"></i> Add Expense</a></li>*@
+
+                <li>&emsp;</li>
+                @*<li><a href="#" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#myModal2"><i class="fa fa-table"></i> Expense List</a></li>*@
+                <li>&emsp;</li>
+                <li>
+                    <a class=" btn btn-warning btn-sm" onclick="PrintDiv();"><span class="fa fa-print"></span> Print</a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-5">
+            @using (Html.BeginForm("Index", "Tbl_Expense", FormMethod.Post))
+            {
+                <div style="width:100%;">
+                    <div style="width:35%;float:left">
+                        <input type="text" name="fdate" id="fdate" class="form-control form-control-sm" placeholder="Enter Start Date" />
+                    </div>
+                    <div style="width:35%;float:left;margin-left:5px">
+                        <input type="text" name="ldate" id="ldate" class="form-control form-control-sm" placeholder="Enter Last Date" />
+                    </div>
+                    <div style="width:20%;float:right">
+                        @*<input type="submit" name="ldate" class="btn btn-light btn-sm" value="Search" />*@
+                        <button class="btn btn-light btn-sm"><i class="fa fa-search"></i> Search</button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="modal-body bg-light mt-3" style="border-radius:6px 6px;-webkit-box-shadow: 0 0 10px #ddd;-moz-box-shadow: 0 0 10px #ddd;" id="printbill">
+        <div class="modal-body" style="width:100%">
+            <div style="width:30%;float:left;margin-top:-30px">
+                <h4><b>Total Expense:</b> @ViewBag.t_p</h4>
+            </div>
+            <div style="width:40%;float:left;margin-top:-30px">
+                <center>
+                    <h3><b>EXPENSE REPORT</b></h3>
+                </center>
+            </div>
+            <div style="width:30%;float:left;margin-top:-30px">
+                <h3><b>@DateTime.Now</b></h3>
+            </div>
+        </div>
+        <div class="table">
+            <table class="table table-bordered" width="1000" border="1">
+                <thead class="bg-warning">
+                    <tr>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (DataRow row in Model.Tables[0].Rows)
+                    {
+                        <tr>
+                            <td>@row["Description"]</td>
+                            <td>@row["Amount"]</td>
+                            <td>@row["Date"]</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"> ADD NEW EXPENSE'S</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <textarea class="form-control" ng-model="ex_desc" placeholder="Expense Descriptions. . . ."></textarea>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" ng-model="ex_amount" style="margin-top:35px" placeholder="Enter Amount . . . " required />
+                        </div>
+                        <div class="col-md-4 mt-2">
+                            <button type="button" id="btnSave" ng-click="InsertExpense()" value="Submit" class="btn btn-info" style="margin-top:35px">Save</button>
+                        </div>
+
+                    </div>
+                    <hr />
+                    <!--Start Table -->
+                    <h4 class="text-center text-warning"><b>TODAY EXPENSE LIST</b></h4>
+                    <input type="text" class="form-control" placeholder="Search . . ." ng-model="Search" /><br />
+                    <table class="table table-hover table-bordered" ng-init="ExpenseListTwo()">
+                        <thead class="bg-info">
+                            <tr>
+                                <th>S.No</th>
+                                <th>Description</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                                <th>Action</th>
+
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="sup in Expenses | filter : Search">
+                                <td>{{$index+1}}</td>
+                                <td>{{sup.Description}}</td>
+                                <td>{{sup.Amount}}</td>
+                                <td>{{sup.Date}}</td>
+                                <td><a href="#" class="text-danger" ng-click="DeleteExpense(sup)"><span class="glyphicon glyphicon-trash"></span> Del</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!--End Table -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Add Expense Modal -->
+    <div class="modal fade" id="myModal1" tabindex="-1" aria-labelledby="myModal1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+                </div>
+                <div class="modal-title">
+                    <h4 class="modal-title text-center text-info" id="myModalLabel"><b><span class="glyphicon glyphicon-user"></span> ADD NEW EXPENSE'S</b></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <textarea class="form-control" ng-model="ex_desc" placeholder="Expense Descriptions. . . ."></textarea>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" ng-model="ex_amount" style="margin-top:35px" placeholder="Enter Amount . . . " required />
+                        </div>
+                        <div class="col-md-4 mt-2">
+                            <button type="button" id="btnSave" ng-click="InsertExpense()" value="Submit" class="btn btn-info" style="margin-top:35px">Save</button>
+                        </div>
+
+                    </div>
+                    <hr />
+                    <!--Start Table -->
+                    <h4 class="text-center text-warning"><b>TODAY EXPENSE LIST</b></h4>
+                    <input type="text" class="form-control" placeholder="Search . . ." ng-model="Search" /><br />
+                    <table class="table table-hover table-bordered" ng-init="ExpenseListTwo()">
+                        <thead class="bg-info">
+                            <tr>
+                                <th>S.No</th>
+                                <th>Description</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                                <th>Action</th>
+
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="sup in Expenses | filter : Search">
+                                <td>{{$index+1}}</td>
+                                <td>{{sup.Description}}</td>
+                                <td>{{sup.Amount}}</td>
+                                <td>{{sup.Date}}</td>
+                                <td><a href="#" class="text-danger" ng-click="DeleteExpense(sup)"><span class="glyphicon glyphicon-trash"></span> Del</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!--End Table -->
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End Add Expense Modal -->
+    <!--Add Expense Modal -->
+    <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModal1" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+                </div>
+                <div class="modal-title">
+                    <h4 class="modal-title text-center text-info" id="myModalLabel"><b><span class="glyphicon glyphicon-user"></span> EXPENSE'S</b></h4>
+                </div>
+                <div class="modal-body">
+                    <!--Start Table -->
+                    <h4 class="text-center text-warning"><b>EXPENSE LIST</b></h4>
+                    <input type="text" class="form-control" placeholder="Search . . ." ng-model="Search" /><br />
+                    <table class="table table-hover table-bordered" ng-init="ExpenseList()">
+                        <thead class="bg-info">
+                            <tr>
+                                <th>S.No</th>
+                                <th>Description</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                                <th>Action</th>
+
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="sup in Expense | filter : Search">
+                                <td>{{$index+1}}</td>
+                                <td>{{sup.Description}}</td>
+                                <td>{{sup.Amount}}</td>
+                                <td>{{sup.Date}}</td>
+                                <td><a href="#" class="text-danger" ng-click="DeleteExpense(sup)"><span class="glyphicon glyphicon-trash"></span> Del</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!--End Table -->
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End Add Expense Modal -->
+</div>
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<link href="~/EditAbleJs/jquery-editable-select.min.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<script src="~/EditAbleJs/jquery-editable-select.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#fdate").datepicker();
+        $("#ldate").datepicker();
+
+
+    })
+
+</script>
+<script>
+
+    function PrintDiv() {
+        //$("table, tr").addClass("blue");
+        var divToPrint = document.getElementById('printbill');
+        var popupWin = window.open('', '_blank', 'width=1000,height=auto');
+        popupWin.document.open();
+        popupWin.document.write('<html><body onload="window.print()">' + divToPrint.innerHTML + '</html>');
+        popupWin.document.close();
+        mywindow.focus(); // necessary for IE >= 10*/
+
+        mywindow.print();
+        mywindow.close();
+
+    }
+
+</script>

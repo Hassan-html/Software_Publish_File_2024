@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewBag.Title = "Print";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<button class="btn btn-warning form-control" onclick="printdiv('div_print');"><i class="fa fa-print"></i> Print</button>
+<h2>Print</h2>
+<link href="~/Views/TblProfiles/StyleSheet.css" rel="stylesheet" />
+<style>
+    
+</style>
+<div class="container">
+    <div id="div_print">
+        <div class="row">
+            <div class="col-md-12" style="border-bottom:4px solid #000000">
+                <b style="font-family:'Astro Armada';font-size:3.2em;color:#000000">FRESH IMPEX</b><br />
+                <b style="font-family:Calibri;font-size:1.2em;color:#000000">Flex Paper & Ink Importer & Hole Sale Dealer</b><br />
+                <b style="font-family:Calibri;font-size:1.2em;color:#000000">Karim Pura Road,Ramtalai Sialkot.</b><br />
+                <b style="font-family:Calibri;font-size:1.2em;color:#000000">0000-0000000 / 0000-0000000</b><br />
+            </div>
+            <div class="col-md-12" style="text-align:center;">
+                <b style="font-family:Calibri;font-size:2.5em;color:#000000"><u>INVOICE</u></b><br />
+            </div>
+        </div>
+        <div style="width:100%;padding:5px 5px">
+            <div style="width:38%;float:left;text-align:left;border:2px solid #000000;border-radius:15px 15px;padding:5px 5px">
+                <b style="font-family:Calibri;font-size:1.2em;color:#000000">Bill No#: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span> 1 </span></b><br />
+                <b style="font-family:Calibri;font-size:1.2em;color:#000000">Bill Date: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span> 12/11/2023 </span></b><br />
+                <b style="font-family:Calibri;font-size:1.2em;color:#000000">Payment Mode:&nbsp;&nbsp;&nbsp; <span> Credit </span></b><br />
+            </div>
+            <div style="width:60%;float:left;text-align:left;border:2px solid #000000;border-radius:15px 15px;padding:5px 5px;margin-left:10px">
+                <b style="font-family:Calibri;font-size:1.2em;color:#000000">Customer Name:&nbsp;&nbsp;&nbsp; <span> Hafiz Muhammad Usman </span></b><br />
+                <b style="font-family:Calibri;font-size:1.2em;color:#000000">Contact No#: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span> 03338719281 </span></b><br />
+                <b style="font-family:Calibri;font-size:1.2em;color:#000000">Remarks:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span> Cash By Hand Cheque No12546845s </span></b><br />
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<script>
+    function printdiv(printpage) {
+        var headstr = "<html><head><title></title></head><body>";
+        var footstr = "</body>";
+        var newstr = document.all.item(printpage).innerHTML;
+        var oldstr = document.body.innerHTML;
+        document.body.innerHTML = headstr + newstr + footstr;
+        window.print();
+        document.body.innerHTML = oldstr;
+        return false;
+    }
+</script>

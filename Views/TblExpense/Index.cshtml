@@ -1,0 +1,151 @@
+﻿@model SialkotSweet.Models.TblExpense
+    @{
+        ViewBag.Title = "Index";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+        //"~/Views/Shared/_Layout.cshtml"
+    }
+<div class="container-fluid p-5">
+    <div class="row">
+        <div class="col-md-4">
+            <b class="text-center text-danger" style="font-size:28px">EXPENSE MANAGEMENT</b>
+        </div>
+        <div class="col-md-2">
+            <a href="@Url.Action("Home", "Home")" class="btn btn-dark form-control">Back</a>
+        </div>
+        <div class="col-md-2">
+            <a href="@Url.Action("List", "ExpenseAccounts")" class="btn btn-secondary form-control">New Accounts</a>
+        </div>
+        <div class="col-md-2">
+            <a href="@Url.Action("ExpenseReport", "TblExpense")" class="btn btn-primary form-control">Expense List / Report</a>
+        </div>
+        <div class="col-md-2">
+            <a href="@Url.Action("ExpenseAccountReport", "TblExpense")" class="btn btn-info form-control">Expense Account Report</a>
+        </div>
+    </div>
+    <p><b>@ViewBag.msg</b></p>
+    @using (Html.BeginForm("Index", "TblExpense"))
+    {
+    <div class="row mt-2">
+        <div class="col-md-4">
+            <label>Select Account</label>
+            @Html.TextBoxFor(x => x.AccountNo, new { @class = "form-control form-control-lg", placeholder = "Select Expensse Account" })
+            @Html.HiddenFor(x => x.AccountName, new { @class = "form-control" })
+            @Html.HiddenFor(x => x.Id, new { @class = "form-control" })
+        </div>
+        <div class="col-md-4">
+            <label>Select Account</label>
+            @Html.TextBoxFor(x => x.AccountHeadNo, new { @class = "form-control form-control-lg", placeholder = "Select Expensse Account" })
+            @Html.HiddenFor(x => x.AccountHeadName, new { @class = "form-control" })
+        </div>
+        <div class="col-md-4">
+            <label>Select Date</label>
+            @Html.TextBoxFor(x => x.Date, "{0:yyyy-MM-dd}", new { @class = "form-control form-control-lg" })
+        </div>
+        <div class="col-md-4">
+            <label>Enter Name</label>
+            @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+        </div>
+        <div class="col-md-4">
+            <label>Enter Details</label>
+            @Html.TextBoxFor(x => x.Details, new { @class = "form-control" })
+        </div>
+        <div class="col-md-4">
+            <label>Enter Amount</label>
+            @Html.TextBoxFor(x => x.Debit, new { @class = "form-control", @Step = "0.01", @type = "number" })
+        </div>
+    </div>
+        <div class="col-md-2" style="float:right">
+            <input type="submit" name="submit" value="Save Expense" class="btn btn-success form-control" style="margin-top:24px" onclick="save()" />
+        </div>
+    }
+    <br /><br /><br />
+</div>
+    <script src="~/Scripts/jquery-3.6.0.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <link href="~/KendoUI/default-ocean-blue.css" rel="stylesheet" />
+    <script src="~/KendoUI/jquery.min.js"></script>
+    <script src="~/KendoUI/jszip.min.js"></script>
+    <script src="~/KendoUI/kendo.all.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#Date").kendoDatePicker({ value: new Date(), format: "yyyy-MM-dd", });
+            dataSource = new kendo.data.DataSource({
+                transport: {
+                    read: {
+                        url: "/TblExpense/getAccount",
+                        dataType: "json"
+                    }
+                }
+            });
+            $("#AccountNo").kendoMultiColumnComboBox({
+                dataTextField: "AccountName",
+                dataValueField: "AccountNo",
+                height: 450,
+                columns: [
+                    {
+                        field: "AccountNo",
+                        title: "AccountNo",
+                        width: 200
+                    },
+                    {
+                        field: "AccountName",
+                        title: "Account Name",
+                        width: 400
+                    }
+                ],
+                filter: "contains",
+                filterFields: ["AccountNo", "AccountName"],
+                dataSource: dataSource
+            });
+            $("#AccountNo").change(function () {
+                var vid = $("#AccountNo").val();
+                $.ajax({
+                    type: "POST",
+                    url: "/TblExpense/getAccountRecord",
+                    data: '{vid:"' + vid + '"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (result) {
+                        $("#AccountNo").val(result.AccountNo);
+                        $("#AccountName").val(result.AccountName);
+                    }
+                });
+            });
+            //###############################################################################
+            //###############################################################################
+            $("#AccountHeadNo").kendoMultiColumnComboBox({
+                dataTextField: "AccountName",
+                dataValueField: "AccountNo",
+                height: 450,
+                columns: [
+                    {
+                        field: "AccountNo",
+                        title: "AccountNo",
+                        width: 200
+                    },
+                    {
+                        field: "AccountName",
+                        title: "Account Name",
+                        width: 400
+                    }
+                ],
+                filter: "contains",
+                filterFields: ["AccountNo", "AccountName"],
+                dataSource: dataSource
+            });
+            $("#AccountHeadNo").change(function () {
+                var vid = $("#AccountHeadNo").val();
+                $.ajax({
+                    type: "POST",
+                    url: "/TblExpense/getAccountRecord",
+                    data: '{vid:"' + vid + '"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (result) {
+                        $("#AccountHeadNo").val(result.AccountNo);
+                        $("#AccountHeadName").val(result.AccountName);
+                    }
+                });
+            });
+        });
+    </script>

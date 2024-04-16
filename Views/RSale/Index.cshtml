@@ -1,0 +1,422 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+
+    .h {
+        display: none;
+    }
+
+    #itemtbl {
+        margin-top: 5px;
+    }
+
+    table th {
+        font-size: 14px;
+    }
+
+    table thead td {
+        font-size: 14px;
+    }
+
+        table thead td span {
+            font-size: 12px;
+        }
+        .lblcl{
+            font-weight:bold;
+            font-size:16px;
+        }
+    .custom-row-class {
+        border-top:2px solid #000000;
+    }
+</style>
+
+<input type="hidden" id="saleid" /><input type="hidden" id="uid" />
+<input type="hidden" id="bitem" /><input type="hidden" id="size" />
+<input type="hidden" id="unit" /><input type="hidden" id="costrate" />
+<input type="hidden" id="tvalue" /><input type="hidden" id="paytd" />
+<input type="hidden" id="contact" /><input type="hidden" id="time" />
+<div class="container-fluid p-2">
+    <div class="row">
+        <div class="col-md-8" style="background-color:beige;padding:15px 15px;border-radius:10px">
+            <div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <input class="form-control" id="custid" name="custid" placeholder="Select Customer">
+                        <input type="hidden" id="ccode" /><input type="hidden" id="cname" /><input type="hidden" id="comp" />
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control" id="date" name="date" placeholder="Select Date">
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control" id="sdate" name="date" placeholder="Select Delivery Date">
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control mt-2" id="custn" name="custn" placeholder="Enter Customer Name">
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control mt-2" id="gpass" name="gpass" placeholder="Enter Gate Pass">
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control mt-2" id="vehno" name="vehno" placeholder="Enter Vehicle No">
+                    </div>
+                    <div class="col-md-3">
+                        <label><b>Scan Barcode</b></label>
+                        <input type="text" class="form-control" id="bcode" name="bcode" placeholder="Scan Barcode">
+                        <input type="hidden" class="form-control" id="bno" name="bno" placeholder="Scan Barcode">
+                    </div>
+                    <div class="col-md-5">
+                        <label><b>Item</b></label>
+                        <input class="form-control" id="Item" name="Item" />
+                    </div>
+                    <div class="col-md-2">
+                        <label><b>Rate</b></label>
+                        <input type="number" class="form-control" id="salerate" name="rate" autocomplete="off" />
+                    </div>
+                    <div class="col-md-2">
+                        <label><b>Quantity</b></label>
+                        <input type="number" class="form-control" id="Qty" name="Qty" autocomplete="off" />
+                    </div>
+                </div>
+            </div>
+            <div class="table-content" id="div_print">
+                <div class="thhide" style="display:none">
+                    <div class="row">
+                        <div class="col-md-12" style="border-bottom:4px solid #000000">
+                            <b style="font-family:'Astro Armada';font-size:3.2em;color:#000000">@SialkotSweet.Controllers.SaleController.Receipt_Name()</b><br />
+                            <b style="font-family:Calibri;font-size:1.2em;color:#000000">Flex Paper & Ink Importer & Hole Sale Dealer</b><br />
+                            <b style="font-family:Calibri;font-size:1.2em;color:#000000">@SialkotSweet.Controllers.SaleController.Address()</b><br />
+                            <b style="font-family:Calibri;font-size:1.2em;color:#000000">@SialkotSweet.Controllers.SaleController.Mobile()  / @SialkotSweet.Controllers.SaleController.Phone()</b><br />
+                        </div>
+                        <div class="col-md-12" style="text-align:center;">
+                            <b style="font-family:Calibri;font-size:2.5em;color:#000000"><u>INVOICE</u></b><br />
+                        </div>
+                    </div>
+                    <div style="width:100%;padding:5px 5px">
+                        <div style="width:38%;float:left;text-align:left;border:2px solid #000000;border-radius:15px 15px;padding:5px 5px">
+                            <b style="font-family:Calibri;font-size:1.2em;color:#000000">Bill No#: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="tsinv"></span></b><br />
+                            <b style="font-family:Calibri;font-size:1.2em;color:#000000">Bill Date: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="tidate"></span></b><br />
+                            <b style="font-family:Calibri;font-size:1.2em;color:#000000">Payment Mode:&nbsp;&nbsp;&nbsp; <span id="tpmode"></span></b><br />
+                        </div>
+                        <div style="width:60%;float:left;text-align:left;border:2px solid #000000;border-radius:15px 15px;padding:5px 5px;margin-left:10px">
+                            <b style="font-family:Calibri;font-size:1.2em;color:#000000">Customer Name:&nbsp;&nbsp;&nbsp; <span id="tcname"></span></b><br />
+                            <b style="font-family:Calibri;font-size:1.2em;color:#000000">Contact No#: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="tcont"></span></b><br />
+                            <b style="font-family:Calibri;font-size:1.2em;color:#000000">Remarks:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="tprby"></span></b><br />
+                        </div>
+                    </div>
+                    <br /><br /><br /><br />
+                </div>
+                <table class="table table-bordered table-sm table-hover mt-2" id="itemtbl">
+
+                    @*80mm Receipt Start*@
+                    @*<thead class="thhide">
+                    <tr>
+                        <td colspan="12" style="border-bottom:1px solid #000000;color:black">
+
+                            <center>
+                                <b style="font-size:24px;">@SialkotSweet.Controllers.SaleController.Receipt_Name()</b>
+                                <br />
+                                <b>@SialkotSweet.Controllers.SaleController.Address()</b><br /> /
+                                <b>@SialkotSweet.Controllers.SaleController.Mobile()   @SialkotSweet.Controllers.SaleController.Phone() </b>
+                            </center>
+                            <b style="float:left">Invoice No#: <span id="tsinv"></span></b>
+                            <b style="float:right">Date: <span id="tidate"></span></b>
+                            <br />
+                        </td>
+                    </tr>
+                </thead>*@
+                @*<thead class="" style="background-color:#0e6332;color:#ffffff">
+            <tr>
+                <td align="center" style="display:none">SaleID</td>
+                <td align="center" style="display:none;">Barcode</td>
+                <td align="center">آئٹم</td>
+                <td align="center" style="display:none">Size</td>
+                <td align="center" style="display:none">Colour</td>
+                <td align="center" style="display:none;">CostRate</td>
+                <td align="center">ریٹ</td>
+                <td align="center">مقدار</td>
+                <td align="center" style="display:none;">CostTotal</td>
+                <td align="center">ٹوٹل</td>
+            </tr>
+        </thead>*@
+                    <thead style="color:#000000;font-weight:bold;border-bottom:2px solid #000000;border-top:2px solid #000000;">
+                        <tr>
+                            <td align="center" style="display:none">SaleID</td>
+                            <td align="center" style="display:none;">Barcode</td>
+                            <td align="center" style="display:none;">BatchNo</td>
+                            <td align="left" style="width:55%">Item</td>
+                            <td align="center" style="display:none">Size</td>
+                            <td align="center" style="display:none">Colour</td>
+                            <td align="center" style="display:none;">CostRate</td>
+                            <td align="center" style="width:15%">Rate</td>
+                            <td align="center" style="width:15%">Qty</td>
+                            <td align="center" style="display:none;">CostTotal</td>
+                            <td align="center" style="width:15%">Total</td>
+                        </tr>
+                    </thead>
+                    <tbody class="itembody"></tbody>
+                </table>
+                <div class="tfhide">
+                    <div style="float:right;width:300px;padding:5px;border:2px solid #000000">
+                        <b style="font-family:Calibri;font-size:1.2em;color:#000000;float:left">Total Amount:</b>
+                        <b style="font-family:Calibri;font-size:1.2em;color:#000000;float:right"><span id="tamt"></span></b><br />
+                    </div><br /><br />
+                    <div style="float:right;width:300px;padding:5px;border:2px solid #000000">
+                        <b style="font-family:Calibri;font-size:1.2em;color:#000000;float:left">Disc Amount:</b>
+                        <b style="font-family:Calibri;font-size:1.2em;color:#000000;float:right"><span id="tdis"></span></b><br />
+                    </div><br /><br />
+                    <div style="float:right;width:300px;padding:5px;border:2px solid #000000">
+                        <b style="font-family:Calibri;font-size:1.2em;color:#000000;float:left">Net Amount:</b>
+                        <b style="font-family:Calibri;font-size:1.2em;color:#000000;float:right"><span id="tgtotal"></span></b><br />
+                    </div><br /><br />
+                    <div style="float:right;width:300px;padding:5px;border:2px solid #000000" class="checkhide">
+                        <b style="font-family:Calibri;font-size:1.2em;color:#000000;float:left">Balance:</b>
+                        <b style="font-family:Calibri;font-size:1.2em;color:#000000;float:right"><span id="tpbal"></span></b><br />
+                    </div><br /><br />
+                    <div style="float:right;width:300px;padding:5px;border:2px solid #000000" class="checkhide">
+                        <b style="font-family:Calibri;font-size:1.2em;color:#000000;float:left">Receiveable:</b>
+                        <b style="font-family:Calibri;font-size:1.2em;color:#000000;float:right"><span id="ttrec"></span></b><br />
+                    </div>
+                    <div style="width:100%;">
+                        <div style="width:40%;float:left;border-bottom:1px solid #000000">
+                            <b style="font-family:Calibri;font-size:1.2em;color:#000000;">Sold By:-</b>
+                        </div>
+                        <div style="width:40%;float:left;border-bottom:1px solid #000000;margin-left:20%">
+                            <b style="font-family:Calibri;font-size:1.2em;color:#000000;">Received By:-</b>
+                        </div>
+                    </div>
+                    <br />
+                    <br />
+                    <div style="width:100%;">
+                        <div style="width:40%;float:left;">
+                            <b style="font-family:Calibri;font-size:1.6em;color:#000000;"><u>Note: No Claim After Cutting</u></b>
+                        </div>
+                        <div style="width:60%;float:left;">
+                            <b style="font-family:Calibri;font-size:1.6em;color:#000000;float:right">-رول سے کٹائی شدہ پیس واپس یا تبدیل نہ ہوگا</b>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="text-center" onclick="printdiv('div_print');"><b>SUB TOTAL VALUES:</b></h3>
+                </div>
+                <div class="col-md-6">
+                    <label class="lblcl">Total Amount</label>
+                    <input type="hidden" class="form-control form-control-lg" id="totalcost" name="totalcost" readonly>
+                    <input type="number" class="form-control form-control-lg" id="totalsale" name="totalsale" readonly>
+                </div>
+                <div class="col-md-6">
+                    <label class="lblcl">Discount</label>
+                    <input type="number" class="form-control form-control-lg" id="discount" name="discount">
+                </div>
+                <div class="col-md-6">
+                    <label class="lblcl">Net Total</label>
+                    <input type="number" class="form-control form-control-lg" id="nettotal" name="nettotal" readonly>
+                </div>
+                <div class="col-md-6">
+                    <label class="lblcl">Exta. Charges</label>
+                    <input type="number" class="form-control form-control-lg" id="charges" name="charges">
+                </div>
+                <div class="col-md-12">
+                    <label class="lblcl">Gross Total</label>
+                    <input type="number" class="form-control form-control-lg" id="grosstotal" name="grosstotal" style="font-weight:bold;color:#000000" readonly>
+                </div>
+                <div class="col-md-12">
+                    <label class="lblcl">Previous Balance</label>
+                    <input type="number" class="form-control form-control-lg" id="pbal" name="pbal" readonly>
+                </div>
+                <div class="col-md-12">
+                    <label class="lblcl">Total Receiveable</label>
+                    <input type="number" class="form-control form-control-lg" id="trec" name="trec" style="font-weight:bold;color:#000000" readonly>
+                </div>
+                <div class="col-md-6">
+                    <label class="lblcl">Customer Payment</label>
+                    <input type="number" class="form-control form-control-lg" id="cpay" name="cpay">
+                </div>
+                <div class="col-md-6">
+                    <label class="lblcl">Customer Return</label>
+                    <input type="number" class="form-control form-control-lg" id="cret" name="cret" readonly>
+                </div>
+                <div class="col-md-6">
+                    <label class="lblcl">Select Payment Mode</label>
+                    <select id="pmode" class="form-control form-control-lg">
+                        <option value="Debit">Select Payment Mode</option>
+                        <option value="Debit">Debit</option>
+                        <option value="Credit">Credit</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="lblcl">Mark Balance</label><br />
+                    <input type="checkbox" name="check" id="btncheck" style="width:100px;height:38px"/>
+                </div>
+                <div class="col-md-12" style="display:none">
+                    <label class="lblcl">Delivery Time:</label>
+                    <input type="text" class="form-control form-control-lg" id="dtime" name="dtime">
+                </div>
+                <div class="col-md-12">
+                    <label class="lblcl">Order Received By:</label>
+                    <input type="text" class="form-control form-control-lg" id="rby" name="remamt">
+                </div>
+                <div class="col-md-12">
+                    <label class="lblcl">Payment Received By:</label>
+                    <input type="text" class="form-control form-control-lg" id="prby" name="premamt">
+                </div>
+                <div class="col-md-6">
+                    <a href="#" class="form-control btn btn-lg btn-success" onclick="printdiv('div_print');" style="margin-top:20px;"><i class="fa fa-plus"></i> Save Invoice</a>
+                    @*<input type="submit" name="Save Invoice" value="Save Invoice" saveInvoice() class="form-control btn-success" onclick="saveInvoice()" style="margin-top:20px;" />*@
+                </div>
+                <div class="col-md-6">
+                    <a href="#" class="form-control btn btn-lg btn-danger" onclick="CancelInvoice()" style="margin-top:20px;"><i class="fa fa-trash-o"></i> Delete Invoice</a>
+                    @*<input type="submit" name="Cancel Invoice" value="Delete Invoice" class="form-control btn btn-danger" onclick="CancelInvoice()" style="margin-top:20px;" />*@
+                </div>
+                <div class="col-md-6">
+                    <a href="@Url.Action("Home","Home")" class="btn btn-lg btn-dark form-control" style="margin-top:10px;"><i class="fa fa-exchange"></i> Exit Invoice</a>
+                </div>
+                <div class="col-md-6">
+                    <a href="#" class="btn btn-lg btn-primary form-control" style="margin-top:10px;" onclick="Refresh()"><i class="fa fa-refresh"></i> Refresh Invoice</a>
+                </div>
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-lg btn-warning form-control" data-bs-toggle="modal" data-bs-target="#myModal" style="margin-top:10px;"><i class="fa fa-pencil-square-o"></i> Edit Previous Invoice's</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-body xyz">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label><b>Update Last 50 Invoice's</b></label>
+                        <input type="text" class="form-control" id="editinvd" name="editinv" placeholder="Select Invoice's">
+                    </div>
+                    <div class="col-md-6">
+                        <label><b>Customer Balance Invoice's</b></label>
+                        <input type="text" class="form-control" id="cbinv" name="cbinv" placeholder="Select Invoice's">
+                    </div>
+                    <div class="col-md-3 mt-2">
+                        <input type="text" id="ecname" class="form-control" placeholder="Select Customer" />
+                    </div>
+                    <div class="col-md-3 mt-2">
+                        <input type="text" id="fdate" class="form-control" placeholder="Select First Date" />
+                    </div>
+                    <div class="col-md-3 mt-2">
+                        <input type="text" id="ldate" class="form-control" placeholder="Select Last Date" />
+                    </div>
+                    <div class="col-md-3 mt-2">
+                        <input type="submit" value="Search" class="btn btn-primary form-control" onclick="SearchloadData()" />
+                    </div>
+                </div>
+                <div class="table-content mt-2">
+                    <table class="table table-sm table-bordered" id="stbl">
+                        <thead id="header-fixed">
+                            <tr>
+                                <th>Inv#</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Customer</th>
+                                <th>Total</th>
+                                <th>Dis</th>
+                                <th>D.Charges</th>
+                                <th>Net Total</th>
+                                @*<th>Paid</th>*@
+                            </tr>
+                        </thead>
+                        <tbody class="spobody"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .xyz {
+        height: 650px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
+
+    #stbl thead tr th {
+        font-size: 14px;
+    }
+
+    .spobody tr td {
+        font-size: 12px;
+    }
+    /*table th {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        background: #fff;
+    }*/
+</style>
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<script src="~/JsFiles/RsaleJs.js"></script>
+<link href="~/KendoUI/examples-offline.css" rel="stylesheet" />
+<link href="~/KendoUI/default-ocean-blue.css" rel="stylesheet" />
+<script src="~/KendoUI/jquery.min.js"></script>
+<script src="~/KendoUI/jszip.min.js"></script>
+<script src="~/KendoUI/kendo.all.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#bcode").focus();
+        $(".checkhide").hide();
+        //$('#myModal').modal({ backdrop: 'static', keyboard: false }, 'show');
+        $(".thhide").hide();//thhide Header Hide
+        $(".tfhide").hide();//tfhide footer Hide
+        setInterval(function () {
+            var today = new Date();
+            var date = today.getDate() + '/' + (today.getMonth() + 1) + '/' + today.getFullYear();
+            var time = today.getHours() % 12 + ":" + today.getMinutes() + ":" + today.getSeconds();
+            var dateTime = time;
+            $("#time").val(dateTime);
+        }, 1000);
+    });
+    const alertStatus = (e) => {
+        if ($("#btncheck").is(":checked")) {
+            $(".checkhide").show();
+        } else {
+            $(".checkhide").hide();
+        }
+    };
+    $(document).on("click", "#btncheck", alertStatus);
+    function myFunctions() {
+        //alert();
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("vnamev");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("potbl");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[1];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    };
+
+</script>
+

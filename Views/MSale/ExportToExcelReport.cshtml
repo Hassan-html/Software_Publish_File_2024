@@ -1,0 +1,44 @@
+﻿<button onclick="exportTableToExcel('myTable', 'table_data')">Export to Excel</button>
+<table id="myTable">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>City</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>John Doe</td>
+            <td>30</td>
+            <td>New York</td>
+        </tr>
+        <!-- Add more rows as needed -->
+    </tbody>
+</table>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.2/xlsx.full.min.js"></script>
+<script>
+    function exportTableToExcel(tableID, filename) {
+        const table = document.getElementById(tableID);
+        const wb = XLSX.utils.table_to_book(table, { sheet: "Sheet1" });
+
+        // Generate the XLSX file
+        const wbout = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+
+        // Convert to Blob and create a download link
+        const blob = new Blob([wbout], { type: "application/octet-stream" });
+        const url = URL.createObjectURL(blob);
+
+        // Create a download link and trigger the download
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `${filename}.xlsx`;
+        a.click();
+
+        // Clean up
+        setTimeout(() => {
+            URL.revokeObjectURL(url);
+        }, 100);
+    }
+
+</script>

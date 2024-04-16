@@ -1,0 +1,21 @@
+﻿@model SialkotSweet.Models.Tbl_Payment
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <b>@ViewBag.msg</b><br />
+    @using (Html.BeginForm("Index", "Payment", FormMethod.Post))
+    {
+        @Html.HiddenFor(x => x.Id)
+        @Html.HiddenFor(x => x.Status)
+        <label><b>Enter Description:</b></label>
+        @Html.TextBoxFor(x => x.Narration, new { @class = "form-control" })
+        <label><b>Enter Payment:</b></label>
+        @Html.TextBoxFor(x => x.Payment, new { @class = "form-control" })
+        <input type="submit" class="form-control btn btn-primary mt-1" value="Save Payment" />
+        <a href="@Url.Action("List","Payment")" class="btn btn-danger form-control mt-1">Payment List</a>
+    }
+</div>
+

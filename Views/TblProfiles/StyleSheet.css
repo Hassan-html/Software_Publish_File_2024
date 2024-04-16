@@ -1,0 +1,6 @@
+﻿@media print{
+    .crow{
+        display:none;
+        background-color:red;
+    }
+}

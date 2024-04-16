@@ -1,0 +1,135 @@
+﻿@model SialkotSweet.Models.Tbl_CustomerBook
+@{
+    ViewBag.Title = "CustomerBook";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+    <h3 class="text-center"><b>RIDER LEDGER BOOK</b></h3>
+    <p class="text-center"><b>@ViewBag.msg</b></p>
+    @using (Html.BeginForm("CustomerBook", "Customer", FormMethod.Post, new { onkeydown = "return event.keyCode!=13" }))
+    {
+        <div class="row">
+            <div class="col-md-2">
+                <a href="@Url.Action("CustomerBookList","Customer")" class="btn btn-primary mt-2 form-control">Rider Book List</a>
+                <a href="@Url.Action("Home","Home")" class="btn btn-dark mt-2 form-control">Home</a>
+            </div>
+            <div class="col-md-8">
+                <div class="row">
+                    @Html.HiddenFor(x => x.Id)
+                    @Html.HiddenFor(x => x.CCode)
+                    @Html.HiddenFor(x => x.Customer)
+                    @Html.HiddenFor(x => x.Company)
+                    @Html.HiddenFor(x => x.SaleID)
+                    @Html.HiddenFor(x => x.Date, "{0:yyyy-MM-dd}")
+                    <div class="col-md-6">
+                        <label>Select Rider</label>
+                        <input class="form-control form-control-lg" id="departmentsDropdown" name="departmentsDropdown" placeholder="Select Customer">
+                    </div>
+                    <div class="col-md-6">
+                        <label>Select Date</label>
+                        <input type="text" class="form-control form-control-lg" id="date" name="date" placeholder="Select Date">
+                    </div>
+                    <div class="col-md-6">
+                        <label>Enter Narration</label>
+                        @Html.TextBoxFor(x => x.Narrations, new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-6">
+                        <label>Enter Gate Pass</label>
+                        @Html.TextBoxFor(x => x.GatePass, new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-6">
+                        <label>Current Balance</label>
+                        <input class="form-control" id="bal" name="bal" readonly>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Enter Debit Amount</label>
+                        @Html.TextBoxFor(x => x.Debit, new { @class = "form-control", @type = "number", @Step = "0.01" })
+                    </div>
+                    <div class="col-md-6">
+                        <label>Enter Credit Amount</label>
+                        @Html.TextBoxFor(x => x.Credit, new { @class = "form-control", @type = "number", @Step = "0.01" })
+                    </div>
+                    <div class="col-md-6">
+                        <input type="submit" class="btn btn-success form-control" value="Update" style="margin-top:24px" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+
+            </div>
+        </div>
+    }
+</div>
+
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+@*<script src="~/JsFiles/fetchVendor.js"></script>
+    <link href="~/KendoUI/examples-offline.css" rel="stylesheet" />*@
+<link href="~/KendoUI/default-ocean-blue.css" rel="stylesheet" />
+<script src="~/KendoUI/jquery.min.js"></script>
+<script src="~/KendoUI/jszip.min.js"></script>
+<script src="~/KendoUI/kendo.all.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#date").kendoDatePicker({ format: "yyyy-MM-dd", });
+        $("#date").change(function () {
+            $("#Date").val($("#date").val());
+        });
+        dataSource1 = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/Customer/getCustomer",
+                    dataType: "json"
+                }
+            }
+        });
+        $("#departmentsDropdown").kendoMultiColumnComboBox({
+            dataTextField: "CustomerName",
+            dataValueField: "CCode",
+            height: 450,
+            columns: [
+                {
+                    field: "CCode",
+                    title: "CCode",
+                    width: 200
+                },
+                {
+                    field: "CustomerName",
+                    title: "Customer Name",
+                    width: 400
+                },
+                {
+                    field: "Mobile",
+                    title: "Mobile",
+                    width: 250
+                },
+                {
+                    field: "Address",
+                    title: "Address",
+                    width: 500
+                }
+            ],
+            filter: "contains",
+            filterFields: ["CustomerName", "CCode"],
+            dataSource: dataSource1
+        });
+        $("#departmentsDropdown").change(function () {
+            var vid = $("#departmentsDropdown").val();
+            $.ajax({
+                type: "POST",
+                url: "/Customer/getCustomerRecord",
+                data: '{vid:"' + vid + '"}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    $("#CCode").val(result.CCode);
+                    $("#Customer").val(result.CustomerName);
+                    $("#Company").val(result.CompanyName);
+                    $("#bal").val(result.Balance);
+                }
+            });
+        });
+    });
+
+</script>
+

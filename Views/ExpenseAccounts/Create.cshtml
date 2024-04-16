@@ -1,0 +1,36 @@
+﻿@model SialkotSweet.Models.TblAccount
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container p-5">
+    <p class="text-center">@ViewBag.msg</p>
+    <div class="row">
+        <div class="col-md-3">
+            <a href="@Url.Action("Home","Home")" class="btn btn-sm btn-dark form-control">Back</a>
+        </div>
+        <div class="col-md-6">
+            @using (Html.BeginForm("Create", "ExpenseAccounts", FormMethod.Post))
+            {
+                @Html.HiddenFor(x => x.Id)
+                <label class="mt-2">Enter Account ID</label>
+                @Html.TextBoxFor(x => x.AccountNo, new { @class = "form-control" })
+                <label class="mt-2">Enter Account Name</label>
+                @Html.TextBoxFor(x => x.AccountName, new { @class = "form-control" })
+                <input type="submit" class="btn btn-success mt-3" value="Update" style="float:right" />
+                <a href="@Url.Action("List","ExpenseAccounts")" class="btn btn-primary btn-sm mt-3" style="float:left;font-size:16px">Customer List</a>
+            }
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+</div>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script src="~/Scripts/bootstrap-datepicker.min.js"></script>
+<script>
+    $('.a').datepicker({
+        //format: 'mm/dd/yyyy',
+        //startDate: '-3d'
+    });
+</script>
+

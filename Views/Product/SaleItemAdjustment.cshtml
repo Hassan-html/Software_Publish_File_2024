@@ -1,0 +1,141 @@
+﻿@model SialkotSweet.Models.TblSaleItemAdjustment
+@{
+    ViewBag.Title = "SaleItemAdjustment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    label {
+        font-weight: bold;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <b style="font-size:32px">SALE ITEM ADJUSTMENT</b>
+        </div>
+        <div class="col-md-3">
+            <a href="@Url.Action("SaleItemAdjustmentList","Product")" class="btn btn-primary mt-2 form-control">Adjustment List</a>
+        </div>
+        <div class="col-md-3">
+            <a href="@Url.Action("Home","Home")" class="btn btn-dark mt-2 form-control">Back to Home</a>
+        </div>
+    </div>
+    <hr />
+    <p class="text-center"><b>@ViewBag.msg</b></p><br /><br />
+    @using (Html.BeginForm("SaleItemAdjustment", "Product", FormMethod.Post, new { onkeydown = "return event.keyCode!=13" }))
+    {
+        @Html.HiddenFor(x => x.Id)
+        @Html.HiddenFor(x => x.Item)
+        <div class="row">
+            <div class="col-md-3">
+                <label>Enter Item Name</label>
+                @Html.TextBoxFor(x => x.Barcode, new { @class = "form-control form-control-lg", })
+            </div>
+            <div class="col-md-3">
+                <label>Enter Stock Adjustment Date</label>
+                @Html.TextBoxFor(x => x.Date, "{0:yyyy-MM-dd}", new { @class = "form-control form-control-lg", type = "number", Step = "0.01" })
+            </div>
+            <div class="col-md-3">
+                <label>Enter Stock In(+)</label>
+                @Html.TextBoxFor(x => x.StockIn, new { @class = "form-control", type = "number", Step = "0.01" })
+            </div>
+            <div class="col-md-3">
+                <label>Enter Stock Out(-)</label>
+                @Html.TextBoxFor(x => x.StockOut, new { @class = "form-control", type = "number", Step = "0.01" })
+            </div>
+            <div class="col-md-9">
+                <label>Enter Stock Description</label>
+                @Html.TextBoxFor(x => x.Description, new { @class = "form-control" })
+            </div>
+            <div class="col-md-3">
+                <input type="submit" class="btn btn-success form-control" value="Save & Update Adjustment" style="margin-top:24px" />
+            </div>
+        </div>
+    }
+
+</div>
+<div class="container-fluid">
+
+</div>
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+@*<link href="~/KendoUI/examples-offline.css" rel="stylesheet" />*@
+<link href="~/KendoUI/default-ocean-blue.css" rel="stylesheet" />
+<script src="~/KendoUI/jquery.min.js"></script>
+<script src="~/KendoUI/jszip.min.js"></script>
+<script src="~/KendoUI/kendo.all.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#Date").kendoDatePicker({ format: "yyyy-MM-dd", });
+        dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/Purchase/getSaleItem",
+                    dataType: "json"
+                }
+            }
+        });
+        $("#Barcode").kendoMultiColumnComboBox({
+            dataTextField: "Item",
+            dataValueField: "Barcode",
+            height: 450,
+            columns: [
+                {
+                    field: "Barcode",
+                    title: "Barcode",
+                    width: 200
+                },
+                {
+                    field: "Item",
+                    title: "Item",
+                    width: 400
+                },
+                {
+                    field: "Size",
+                    title: "Size",
+                    width: 150
+                },
+                {
+                    field: "Colour",
+                    title: "Colour",
+                    width: 150
+                },
+                {
+                    field: "StockInHand",
+                    title: "StockInHand",
+                    width: 200
+                },
+                {
+                    field: "Stock",
+                    title: "Current Stock",
+                    width: 200
+                }
+            ],
+            footerTemplate: 'Total #: instance.dataSource.total() # items found',
+            filter: "contains",
+            filterFields: ["Barcode", "Item", "Size", "Colour"],
+            dataSource: dataSource
+        });
+        $("#Barcode").change(function () {
+            var barcode = $("#Barcode").val();
+            var empObj = {
+                Barcode: barcode
+            };
+            $.ajax({
+                url: "/Purchase/FetchSaleItemRate",
+                data: JSON.stringify(empObj),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    $("#Item").val(result.Item);
+                    $("#Barcode").focus();
+                },
+                error: function (errormessage) {
+                    alert("Entities Change Or Remove....");
+                }
+            });
+        });
+    });
+</script>
+

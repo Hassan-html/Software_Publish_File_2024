@@ -1,0 +1,102 @@
+﻿@model SialkotSweet.Models.Tbl_Register
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    HttpCookie reqCookies = Request.Cookies["userInfo"];
+    if (reqCookies!=null)
+    {
+        Response.Redirect("Home/Home");
+    }
+    else
+    {
+        <div class="p-5">
+            <div class="">
+                <div class="row">
+                    <div class="col-md-3">
+                        @{
+                            if (reqCookies != null)
+                            {
+                                <h2> @reqCookies["UserName"].ToString() </h2>
+                            }
+                            else
+                            {
+                               // <h3 class="text-danger">User Is Not Valid</h3>
+                            }
+                        }
+                    </div>
+                    <div class="col-md-6" style="background-color:#05595B; border-radius:15px 15px;-webkit-box-shadow: 0 0 10px #ddd;-moz-box-shadow: 0 0 10px #ddd; transform:scaleX(1) scaleY(1);margin-top:0vh">
+
+                        <h1 class="text-center text-light" style="margin-top:5vh"><b>LOGIN PANEL</b></h1>
+                        @using (Html.BeginForm("Login", "Home", FormMethod.Post))
+                        {
+
+                            <label class="text-light"><b>Enter User Name / Email</b></label>
+                            @Html.TextBoxFor(x => x.Username, new { @class = "form-control" })
+                            <label class="text-light"><b>Enter Password</b></label>
+                            @Html.PasswordFor(x => x.Password, new { @class = "form-control" })
+                            <input type="submit" name="Login" value="LOGIN" class=" btn-light btn mt-2" style="float:right" />
+                        }
+                        <p class="text-center text-danger"><b>@ViewBag.msg</b></p>
+                        <br />
+                        <br />
+                        @*<p><a href="@Url.Action("Index","Home")" class="text-secondary">Back To Home</a></p>*@
+                    </div>
+                    <div class="col-md-3">
+                        @*<table>
+                                <thead>
+                                    <tr>
+                                        <td>item</td>
+                                        <td>Price</td>
+                                        <td>Qty</td>
+                                        <td>Total</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Redbulled</td>
+                                        <td>200</td>
+                                        <td contenteditable="true" class="abc">2</td>
+                                        <td>400</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Redbulls</td>
+                                        <td >200</td>
+                                        <td contenteditable="true" class="abc">2</td>
+                                        <td>400</td>
+                                    </tr>
+                                </tbody>
+                            </table>*@
+                    </div>
+                </div>
+                <br />
+                <br />
+            </div>
+        </div>
+    }
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+@*<script>
+        $(document).ready(function () {
+
+            $(".abc").on('keyup', function () {
+                var curr = $(this).closest("tr");
+                var name = curr.find("td:eq(2)").text();
+                var depart = curr.find("td:eq(3)").text();
+                var unit = curr.find("td:eq(4)").text();
+                var size = curr.find("td:eq(5)").text();
+                var cp = curr.find("td:eq(6)").text();
+                var sp = curr.find("td:eq(7)").text();
+                //$(this).closest("tr").find("td:eq(6)").val(unit);
+                curr.find("td:eq(2)").val(col4);
+
+                alert(name + "\n" + depart + "\n" + unit + "\n" + size + "\n" + cp + "\n" + sp);
+            });
+
+        });
+
+    </script>*@

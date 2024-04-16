@@ -1,0 +1,160 @@
+﻿@model IEnumerable<SialkotSweet.Models.TblExpense>
+@{
+    ViewBag.Title = "Expense Account Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container-fluid p-3">
+    @using (Html.BeginForm("ExpenseAccountReport", "TblExpense"))
+    {
+        <div class="row">
+            <div class="col-md-2">
+                <input type="text" class="form-control" name="acc" id="acc" placeholder="Select Expense Account" />
+            </div>
+            <div class="col-md-2">
+                <input type="text" class="form-control" name="dt1" id="dt1" placeholder="First Date" />
+            </div>
+            <div class="col-md-2">
+                <input type="text" class="form-control" name="dt2" id="dt2" placeholder="Last Date" />
+            </div>
+            <div class="col-md-2">
+                <input type="submit" name="submit" value="Search" class="btn btn-sm btn-info form-control" onclick="search()" />
+            </div>
+            <div class="col-md-2">
+                <a href="@Url.Action("Home", "Home")" class="btn btn-sm btn-dark form-control">Back</a>
+            </div>
+            <div class="col-md-2">
+                <input type="button" name="b_print" value="Print" class="btn btn-sm btn-warning ipt form-control" onclick="printdiv('div_print');" />
+            </div>
+        </div>
+    }
+    <div class="table mt-3" id="div_print">
+        <div class="col-md-12 hs">
+            <b style="font-size:22px;float:left;">@SialkotSweet.Controllers.SaleController.Receipt_Name()</b><br />
+            <b style="font-size:22px;float:right">EXPENSE ACCOUNTS REPORT</b><br />
+            <b style="float:left">@SialkotSweet.Controllers.SaleController.Address()</b><br /><b>Contact No# @SialkotSweet.Controllers.SaleController.Mobile()  / @SialkotSweet.Controllers.SaleController.Phone() </b>
+            <b style="float:right">Print Date: @DateTime.Now.ToShortDateString()</b><br />
+        </div>
+        <div class="col-md-2 hs" style="float:right">
+            <span style="float:right">No of Product's: <b>@Model.Count()</b></span>
+        </div>
+        <table class="table table-sm table-bordered" id="myTable">
+            <thead>
+                <tr>
+                    <th>Account</th>
+                    <th>Name</th>
+                    <th>Details</th>
+                    <th>Debit</th>
+                    <th>Credit</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody class="mybody">
+                @foreach (var i in Model)
+                {
+                <tr>
+                    <td>@i.AccountName</td>
+                    <td>@i.Name</td>
+                    <td>@i.Details</td>
+                    <td>@i.Debit</td>
+                    <td>@i.Credit</td>
+                    <td>@i.Date.Value.ToShortDateString()</td>
+                </tr>
+                }
+                <tr>
+                    <td colspan="3" align="right">
+                        <b>Total Value's: </b>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-2" style="float:right">
+        <button class="btn btn-primary form-control" onclick="exportTableToExcel('myTable', 'Expense_Account_Report')">Export to Excel</button>
+    </div>
+</div>
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.2/xlsx.full.min.js"></script>
+<link href="~/KendoUI/default-ocean-blue.css" rel="stylesheet" />
+<script src="~/KendoUI/jquery.min.js"></script>
+<script src="~/KendoUI/jszip.min.js"></script>
+<script src="~/KendoUI/kendo.all.min.js"></script>
+<script>
+    function exportTableToExcel(tableID, filename) {
+        const table = document.getElementById(tableID);
+        const wb = XLSX.utils.table_to_book(table, { sheet: "Sheet1" });
+
+        // Modify date cells to use custom number format
+        const ws = wb.Sheets.Sheet1;
+        for (const cell in ws) {
+            if (cell.startsWith('C') && ws[cell].t === 'd') {
+                ws[cell].z = 'dd/mm/yyyy'; // Custom number format
+            }
+        }
+
+        // Generate the XLSX file
+        const wbout = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+
+        // Convert to Blob and create a download link
+        const blob = new Blob([wbout], { type: "application/octet-stream" });
+        const url = URL.createObjectURL(blob);
+
+        // Create a download link and trigger the download
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `${filename}.xlsx`;
+        a.click();
+
+        // Clean up
+        setTimeout(() => {
+            URL.revokeObjectURL(url);
+        }, 100);
+    };
+    $(document).ready(function () {
+        $(".hs").hide();
+        $("#dt1").kendoDatePicker({ value: new Date(), format: "yyyy-MM-dd", });
+        $("#dt2").kendoDatePicker({ value: new Date(), format: "yyyy-MM-dd", });
+        dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/TblExpense/getAccount",
+                    dataType: "json"
+                }
+            }
+        });
+        $("#acc").kendoMultiColumnComboBox({
+            dataTextField: "AccountName",
+            dataValueField: "AccountNo",
+            height: 450,
+            columns: [
+                {
+                    field: "AccountNo",
+                    title: "AccountNo",
+                    width: 200
+                },
+                {
+                    field: "AccountName",
+                    title: "Account Name",
+                    width: 400
+                }
+            ],
+            filter: "contains",
+            filterFields: ["AccountNo", "AccountName"],
+            dataSource: dataSource
+        });
+    });
+    function printdiv(printpage) {
+        $(".hi").hide();
+        $(".hs").show();
+        var headstr = "<html><head><title></title></head><body>";
+        var footstr = "</body>";
+        var newstr = document.all.item(printpage).innerHTML;
+        var oldstr = document.body.innerHTML;
+        document.body.innerHTML = headstr + newstr + footstr;
+        window.print();
+        document.body.innerHTML = oldstr;
+        $(".hs").hide();
+        return false;
+    };
+</script>
+

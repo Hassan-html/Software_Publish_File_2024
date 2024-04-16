@@ -1,0 +1,182 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    table thead tr td {
+        font-size: 11px;
+        font-weight: bold;
+    }
+    table tbody tr td {
+        font-size: 10px;
+    }
+</style>
+<div class="container-fluid">
+    <div class="row mt-2">
+        <div class="col-md-2">
+            <a href="@Url.Action("Home", "Home")" class="btn btn-sm btn-dark form-control">Back</a>
+        </div>
+        <div class="col-md-2">
+            <input type="button" name="b_print" value="Print" class="btn btn-sm btn-warning ipt form-control" onclick="printdiv('div_print');" />
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-sm btn-primary form-control" onclick="exportTableToExcel('mytbl', 'Expense_Report')">Export to Excel</button>
+        </div>
+    </div>
+    <div id="div_print">
+        <div class="col-md-12 hs">
+            <b style="font-size:22px;float:left;">@SialkotSweet.Controllers.SaleController.Receipt_Name()</b><br />
+            <b style="font-size:22px;float:right">STOCK ITEM SHEET</b><br />
+            <b style="float:left">@SialkotSweet.Controllers.SaleController.Address()</b><br /><b>Contact No# @SialkotSweet.Controllers.SaleController.Mobile()  / @SialkotSweet.Controllers.SaleController.Phone() </b>
+            <b style="float:right">Print Date: @DateTime.Now.ToShortDateString()</b><br />
+        </div>
+        <table class="table table-sm table-bordered mt-2">
+            <thead>
+                <tr>
+                    <td>Sr.</td>
+                    <td>Location</td>
+                    <td>TyreSize</td>
+                    <td>TyreBrand</td>
+                    <td>Year</td>
+                    <td>Pattren</td>
+                    <td>CrossMeasure</td>
+                    <td>CenterHole</td>
+                    <td>ET</td>
+                    <td>WheelWidth</td>
+                    <td>TMPS</td>
+                    <td>WheelBrand</td>
+                    <td>CarBrand</td>
+                    <td>Season</td>
+                    <td>Category</td>
+                    <td>No.Plate</td>
+                    <td>Photo</td>
+                    <td>IssueDate</td>
+                    <td>SaleDate</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>599</td>
+                    <td>SLG1</td>
+                    <td>205/55-16</td>
+                    <td>Michelin</td>
+                    <td>2015</td>
+                    <td>5/7</td>
+                    <td>5x112</td>
+                    <td>57.1</td>
+                    <td>52</td>
+                    <td>7.5</td>
+                    <td></td>
+                    <td>VW Original</td>
+                    <td>Passat</td>
+                    <td>S</td>
+                    <td>Tyre</td>
+                    <td>AB12345</td>
+                    <td>Photo</td>
+                    <td>03.01.13</td>
+                    <td>solgt 10/1 DBA</td>
+                </tr>
+                <tr>
+                    <td>500</td>
+                    <td>SL</td>
+                    <td>205/50-16</td>
+                    <td>Good Year</td>
+                    <td>2019</td>
+                    <td>5/8</td>
+                    <td>5x108</td>
+                    <td>57.1</td>
+                    <td>52</td>
+                    <td>7.5</td>
+                    <td></td>
+                    <td>VW Original</td>
+                    <td>BMW 1-Serie</td>
+                    <td>H</td>
+                    <td>Tyre</td>
+                    <td>AB12345</td>
+                    <td>Photo</td>
+                    <td>03.01.13</td>
+                    <td>solgt 10/1 DBA</td>
+                </tr>
+                <tr>
+                    <td>501</td>
+                    <td>SL</td>
+                    <td>185/50-15</td>
+                    <td>Nokian</td>
+                    <td>2018</td>
+                    <td>5/8</td>
+                    <td>5x108</td>
+                    <td>57.1</td>
+                    <td>52</td>
+                    <td>7.5</td>
+                    <td></td>
+                    <td>VW Original</td>
+                    <td>Ford Transit</td>
+                    <td>W</td>
+                    <td>Tyre</td>
+                    <td>AB12345</td>
+                    <td>Photo</td>
+                    <td>03.01.13</td>
+                    <td>solgt 10/1 DBA</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.2/xlsx.full.min.js"></script>
+<link href="~/KendoUI/default-ocean-blue.css" rel="stylesheet" />
+<script src="~/KendoUI/jquery.min.js"></script>
+<script src="~/KendoUI/jszip.min.js"></script>
+<script src="~/KendoUI/kendo.all.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $(".hs").hide();
+        $("#dt1").kendoDatePicker({ value: new Date(), format: "yyyy-MM-dd", });
+        $("#dt2").kendoDatePicker({ value: new Date(), format: "yyyy-MM-dd", });
+    });
+    function exportTableToExcel(tableID, filename) {
+        const table = document.getElementById(tableID);
+        const wb = XLSX.utils.table_to_book(table, { sheet: "Sheet1" });
+
+        // Modify date cells to use custom number format
+        const ws = wb.Sheets.Sheet1;
+        for (const cell in ws) {
+            if (cell.startsWith('C') && ws[cell].t === 'd') {
+                ws[cell].z = 'dd/mm/yyyy'; // Custom number format
+            }
+        }
+
+        // Generate the XLSX file
+        const wbout = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+
+        // Convert to Blob and create a download link
+        const blob = new Blob([wbout], { type: "application/octet-stream" });
+        const url = URL.createObjectURL(blob);
+
+        // Create a download link and trigger the download
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `${filename}.xlsx`;
+        a.click();
+
+        // Clean up
+        setTimeout(() => {
+            URL.revokeObjectURL(url);
+        }, 100);
+    };
+    function printdiv(printpage) {
+        $(".hi").hide();
+        $(".hs").show();
+        var headstr = "<html><head><title></title></head><body>";
+        var footstr = "</body>";
+        var newstr = document.all.item(printpage).innerHTML;
+        var oldstr = document.body.innerHTML;
+        document.body.innerHTML = headstr + newstr + footstr;
+        window.print();
+        document.body.innerHTML = oldstr;
+        $(".hs").hide();
+        return false;
+    };
+</script>

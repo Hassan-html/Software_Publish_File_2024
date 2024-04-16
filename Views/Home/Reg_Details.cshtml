@@ -1,0 +1,75 @@
+﻿@model IEnumerable<SialkotSweet.Models.Tbl_Register>
+
+@{
+    ViewBag.Title = "Reg_Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container-fluid bg-light">
+    <div id="printbill">
+        <h1 class="text-center mt-2" style="color:#000">
+            <b>REGISTRATION DETAILS</b>
+        </h1>
+        <p class=""><a href="@Url.Action("Home","Home")" class="btn btn-dark btn-sm"><i class="fa fa-home"></i>  Home</a></p>
+        <table class="table table-bordered mt-3" border="1">
+            <thead style="background-color:#000;color:#fff">
+                <tr>
+                    <th scope="col">User Name</th>
+                    <th scope="col">Password</th>
+                    <th scope="col">CNIC</th>
+                    <th scope="col">Mobile</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Salary</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Username)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Password)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CNIC)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Mobile)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Address)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Role)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Date)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Salary)
+                        </td>
+                        <td>
+                            <a href="@Url.Action("EditReg","Home",new {id=item.Id })" class="btn btn-warning btn-sm">Edit</a>
+                            <a href="@Url.Action("Reg_Delete","Home",new {id=item.Id })" class="btn btn-danger btn-sm">Delete</a>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+

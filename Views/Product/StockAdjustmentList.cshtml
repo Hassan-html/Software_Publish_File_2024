@@ -1,0 +1,183 @@
+﻿@model IEnumerable<SialkotSweet.Models.TblStockAdjustment>
+@{
+    ViewBag.Title = "StockAdjustmentList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6">
+            <b style="font-size:32px">STOCK ADJUSTMENT RECORD</b>
+        </div>
+        <div class="col-md-3">
+            <a href="@Url.Action("StockAdjustment","Product")" class="btn btn-primary mt-2 form-control">Stock Adjustment</a>
+        </div>
+        <div class="col-md-3">
+            <a href="@Url.Action("Home","Home")" class="btn btn-dark mt-2 form-control">Back to Home</a>
+        </div>
+    </div>
+    <hr />
+    @using (Html.BeginForm("StockAdjustmentList", "Product"))
+    {
+    <div class="row">
+        <div class="col-md-4">
+            <input type="text" class="form-control form-control-lg" name="Barcode" id="Barcode" placeholder="Item Name" />
+        </div>
+        <div class="col-md-2">
+            <input type="text" class="form-control form-control-lg" name="fdate" id="fdate" placeholder="Select First Date" />
+        </div>
+        <div class="col-md-2">
+            <input type="text" class="form-control form-control-lg" name="ldate" id="ldate" placeholder="Select Last Date" />
+        </div>
+        <div class="col-md-2">
+            <input type="submit" class="btn btn-dark form-control" name="Search" value="Search" />
+        </div>
+        <div class="col-md-2">
+            <button class="form-control btn btn-warning ipt" name="b_print" onclick="printdiv('div_print');">Print</button>
+        </div>
+    </div>
+    }
+    <hr />
+    <div class="table Content" id="div_print">
+        @*<center>
+            <h3 style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif"><b>STOCK ADJUSTMENT RECORD</b></h3>
+        </center>*@
+        <div class="col-md-12">
+            <b style="font-size:22px;float:left;">@SialkotSweet.Controllers.SaleController.Receipt_Name()</b><br />
+            <b style="font-size:22px;float:right">STOCK ADJUSTMENT RECORD</b><br />
+            <b style="float:left">@SialkotSweet.Controllers.SaleController.Address()</b><br /><b>Contact No# @SialkotSweet.Controllers.SaleController.Mobile()  / @SialkotSweet.Controllers.SaleController.Phone() </b>
+            <b style="float:right">Print Date: @DateTime.Now.ToShortDateString()</b><br />
+
+        </div>
+        <div class="col-md-2" style="float:right">
+            <span style="float:right">No of Records: <b>@Model.Count()</b> </span>
+        </div>
+        <table class="table table-sm table-bordered" id="ItemTable">
+            <thead>
+                <tr>
+                    <th style="width:150px">BatchNo#</th>
+                    <th style="width:640px">Item</th>
+                    <th style="width:510px">Description</th>
+                    <th style="width:120px">StockIn</th>
+                    <th style="width:120px">StockOut</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var i in Model)
+                {
+                <tr>
+                    <td>@i.BatchNo</td>
+                    <td>@i.Item</td>
+                    <td>@i.Description</td>
+                    <td>@i.StockIn</td>
+                    <td>@i.StockOut</td>
+                    <td class="hidetd">
+                        <a href="@Url.Action("SADelete","Product",new {Id=i.Id,Barcode=i.Barcode })" class="btn btn-sm btn-danger">Delete</a>
+                        <a href="@Url.Action("StockAdjustment","Product",new {Id=i.Id})" class="btn btn-sm btn-warning">Update</a>
+                    </td>
+                </tr>
+                }
+                <tr>
+                    <td colspan="3" align="center"><b>Stock Value's:</b></td>
+                    <td><b>@Model.Sum(x => x.StockIn)</b></td>
+                    <td><b>@Model.Sum(x => x.StockOut)</b></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+@*<link href="~/KendoUI/examples-offline.css" rel="stylesheet" />*@
+<link href="~/KendoUI/default-ocean-blue.css" rel="stylesheet" />
+<script src="~/KendoUI/jquery.min.js"></script>
+<script src="~/KendoUI/jszip.min.js"></script>
+<script src="~/KendoUI/kendo.all.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#fdate").kendoDatePicker({ format: "yyyy-MM-dd", });
+        $("#ldate").kendoDatePicker({ format: "yyyy-MM-dd", });
+        dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/Purchase/getProduct",
+                    dataType: "json"
+                }
+            }
+        });
+        $("#Barcode").kendoMultiColumnComboBox({
+            dataTextField: "Item",
+            dataValueField: "Barcode",
+            height: 450,
+            columns: [
+                {
+                    field: "Barcode",
+                    title: "Barcode",
+                    width: 200
+                },
+                {
+                    field: "Item",
+                    title: "Item",
+                    width: 400
+                },
+                {
+                    field: "Size",
+                    title: "Size",
+                    width: 150
+                },
+                {
+                    field: "Colour",
+                    title: "Colour",
+                    width: 150
+                },
+                {
+                    field: "StockInHand",
+                    title: "StockInHand",
+                    width: 200
+                },
+                {
+                    field: "Stock",
+                    title: "Current Stock",
+                    width: 200
+                }
+            ],
+            footerTemplate: 'Total #: instance.dataSource.total() # items found',
+            filter: "contains",
+            filterFields: ["Barcode", "Item", "Size", "Colour"],
+            dataSource: dataSource
+        });
+    });
+    function printdiv(printpage) {
+        $(".hidetd").hide();
+        var headstr = "<html><head><title></title></head><body>";
+        var footstr = "</body>";
+        var newstr = document.all.item(printpage).innerHTML;
+        var oldstr = document.body.innerHTML;
+        document.body.innerHTML = headstr + newstr + footstr;
+        window.print();
+        document.body.innerHTML = oldstr;
+        location.reload();
+        return false;
+    };
+    function myFunction2() {
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("MyInput2");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("ItemTable");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[1];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    };
+</script>

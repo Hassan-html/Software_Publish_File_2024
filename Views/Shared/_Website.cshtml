@@ -1,0 +1,767 @@
+﻿<!DOCTYPE html>
+<html lang="en-US" class="no-js">
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <meta charset="UTF-8">
+    <link rel="profile" href="http://gmpg.org/xfn/11">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MCC Trader</title>
+    <meta name='robots' content='max-image-preview:large' />
+    <script>
+        !function (e, a, t) { var n, r, o, i = a.createElement("canvas"), p = i.getContext && i.getContext("2d"); function s(e, t) { var a = String.fromCharCode, e = (p.clearRect(0, 0, i.width, i.height), p.fillText(a.apply(this, e), 0, 0), i.toDataURL()); return p.clearRect(0, 0, i.width, i.height), p.fillText(a.apply(this, t), 0, 0), e === i.toDataURL() } function c(e) { var t = a.createElement("script"); t.src = e, t.defer = t.type = "text/javascript", a.getElementsByTagName("head")[0].appendChild(t) } for (o = Array("flag", "emoji"), t.supports = { everything: !0, everythingExceptFlag: !0 }, r = 0; r < o.length; r++)t.supports[o[r]] = function (e) { if (p && p.fillText) switch (p.textBaseline = "top", p.font = "600 32px Arial", e) { case "flag": return s([127987, 65039, 8205, 9895, 65039], [127987, 65039, 8203, 9895, 65039]) ? !1 : !s([55356, 56826, 55356, 56819], [55356, 56826, 8203, 55356, 56819]) && !s([55356, 57332, 56128, 56423, 56128, 56418, 56128, 56421, 56128, 56430, 56128, 56423, 56128, 56447], [55356, 57332, 8203, 56128, 56423, 8203, 56128, 56418, 8203, 56128, 56421, 8203, 56128, 56430, 8203, 56128, 56423, 8203, 56128, 56447]); case "emoji": return !s([129777, 127995, 8205, 129778, 127999], [129777, 127995, 8203, 129778, 127999]) }return !1 }(o[r]), t.supports.everything = t.supports.everything && t.supports[o[r]], "flag" !== o[r] && (t.supports.everythingExceptFlag = t.supports.everythingExceptFlag && t.supports[o[r]]); t.supports.everythingExceptFlag = t.supports.everythingExceptFlag && !t.supports.flag, t.DOMReady = !1, t.readyCallback = function () { t.DOMReady = !0 }, t.supports.everything || (n = function () { t.readyCallback() }, a.addEventListener ? (a.addEventListener("DOMContentLoaded", n, !1), e.addEventListener("load", n, !1)) : (e.attachEvent("onload", n), a.attachEvent("onreadystatechange", function () { "complete" === a.readyState && t.readyCallback() })), (e = t.source || {}).concatemoji ? c(e.concatemoji) : e.wpemoji && e.twemoji && (c(e.twemoji), c(e.wpemoji))) }(window, document, window._wpemojiSettings);
+    </script>
+    <style>
+
+        img.wp-smiley,
+        img.emoji {
+            display: inline !important;
+            border: none !important;
+            box-shadow: none !important;
+            height: 1em !important;
+            width: 1em !important;
+            margin: 0 0.07em !important;
+            vertical-align: -0.1em !important;
+            background: none !important;
+            padding: 0 !important;
+        }
+    </style>
+    <link rel='stylesheet' id='themetechmount-fablio-extra-icons-css' href="~/Website/wp-content/themes/fablio/assets/themetechmount-fablio-extra-icons/font/flaticon6a4d.css" media='all' />
+    <link rel='stylesheet' id='wp-block-library-css' href='~/Website/wp-includes/css/dist/block-library/style.min6a4d.css?ver=6.1.1' media='all' />
+    <link rel='stylesheet' id='wc-blocks-vendors-style-css' href='~/Website/wp-content/plugins/woocommerce/packages/woocommerce-blocks/build/wc-blocks-vendors-style2ff6.css?ver=8.5.1' media='all' />
+    <link rel='stylesheet' id='wc-blocks-style-css' href='~/Website/wp-content/plugins/woocommerce/packages/woocommerce-blocks/build/wc-blocks-style2ff6.css?ver=8.5.1' media='all' />
+    <link rel='stylesheet' id='classic-theme-styles-css' href='~/Website/wp-includes/css/classic-themes.min68b3.css?ver=1' media='all' />
+    <link href="~/Website/Style.css" rel="stylesheet" />
+    <style id='global-styles-inline-css'>
+
+        body {
+            --wp--preset--color--black: #000000;
+            --wp--preset--color--cyan-bluish-gray: #abb8c3;
+            --wp--preset--color--white: #ffffff;
+            --wp--preset--color--pale-pink: #f78da7;
+            --wp--preset--color--vivid-red: #cf2e2e;
+            --wp--preset--color--luminous-vivid-orange: #ff6900;
+            --wp--preset--color--luminous-vivid-amber: #fcb900;
+            --wp--preset--color--light-green-cyan: #7bdcb5;
+            --wp--preset--color--vivid-green-cyan: #00d084;
+            --wp--preset--color--pale-cyan-blue: #8ed1fc;
+            --wp--preset--color--vivid-cyan-blue: #0693e3;
+            --wp--preset--color--vivid-purple: #9b51e0;
+            --wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);
+            --wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);
+            --wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);
+            --wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%);
+            --wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);
+            --wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);
+            --wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);
+            --wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);
+            --wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);
+            --wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);
+            --wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);
+            --wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);
+            --wp--preset--duotone--dark-grayscale: url('#wp-duotone-dark-grayscale');
+            --wp--preset--duotone--grayscale: url('#wp-duotone-grayscale');
+            --wp--preset--duotone--purple-yellow: url('#wp-duotone-purple-yellow');
+            --wp--preset--duotone--blue-red: url('#wp-duotone-blue-red');
+            --wp--preset--duotone--midnight: url('#wp-duotone-midnight');
+            --wp--preset--duotone--magenta-yellow: url('#wp-duotone-magenta-yellow');
+            --wp--preset--duotone--purple-green: url('#wp-duotone-purple-green');
+            --wp--preset--duotone--blue-orange: url('#wp-duotone-blue-orange');
+            --wp--preset--font-size--small: 13px;
+            --wp--preset--font-size--medium: 20px;
+            --wp--preset--font-size--large: 36px;
+            --wp--preset--font-size--x-large: 42px;
+            --wp--preset--spacing--20: 0.44rem;
+            --wp--preset--spacing--30: 0.67rem;
+            --wp--preset--spacing--40: 1rem;
+            --wp--preset--spacing--50: 1.5rem;
+            --wp--preset--spacing--60: 2.25rem;
+            --wp--preset--spacing--70: 3.38rem;
+            --wp--preset--spacing--80: 5.06rem;
+        }
+
+        :where(.is-layout-flex) {
+            gap: 0.5em;
+        }
+
+        body .is-layout-flow > .alignleft {
+            float: left;
+            margin-inline-start: 0;
+            margin-inline-end: 2em;
+        }
+
+        body .is-layout-flow > .alignright {
+            float: right;
+            margin-inline-start: 2em;
+            margin-inline-end: 0;
+        }
+
+        body .is-layout-flow > .aligncenter {
+            margin-left: auto !important;
+            margin-right: auto !important;
+        }
+
+        body .is-layout-constrained > .alignleft {
+            float: left;
+            margin-inline-start: 0;
+            margin-inline-end: 2em;
+        }
+
+        body .is-layout-constrained > .alignright {
+            float: right;
+            margin-inline-start: 2em;
+            margin-inline-end: 0;
+        }
+
+        body .is-layout-constrained > .aligncenter {
+            margin-left: auto !important;
+            margin-right: auto !important;
+        }
+
+        body .is-layout-constrained > :where(:not(.alignleft):not(.alignright):not(.alignfull)) {
+            max-width: var(--wp--style--global--content-size);
+            margin-left: auto !important;
+            margin-right: auto !important;
+        }
+
+        body .is-layout-constrained > .alignwide {
+            max-width: var(--wp--style--global--wide-size);
+        }
+
+        body .is-layout-flex {
+            display: flex;
+        }
+
+        body .is-layout-flex {
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+            body .is-layout-flex > * {
+                margin: 0;
+            }
+
+        :where(.wp-block-columns.is-layout-flex) {
+            gap: 2em;
+        }
+
+        .has-black-color {
+            color: var(--wp--preset--color--black) !important;
+        }
+
+        .has-cyan-bluish-gray-color {
+            color: var(--wp--preset--color--cyan-bluish-gray) !important;
+        }
+
+        .has-white-color {
+            color: var(--wp--preset--color--white) !important;
+        }
+
+        .has-pale-pink-color {
+            color: var(--wp--preset--color--pale-pink) !important;
+        }
+
+        .has-vivid-red-color {
+            color: var(--wp--preset--color--vivid-red) !important;
+        }
+
+        .has-luminous-vivid-orange-color {
+            color: var(--wp--preset--color--luminous-vivid-orange) !important;
+        }
+
+        .has-luminous-vivid-amber-color {
+            color: var(--wp--preset--color--luminous-vivid-amber) !important;
+        }
+
+        .has-light-green-cyan-color {
+            color: var(--wp--preset--color--light-green-cyan) !important;
+        }
+
+        .has-vivid-green-cyan-color {
+            color: var(--wp--preset--color--vivid-green-cyan) !important;
+        }
+
+        .has-pale-cyan-blue-color {
+            color: var(--wp--preset--color--pale-cyan-blue) !important;
+        }
+
+        .has-vivid-cyan-blue-color {
+            color: var(--wp--preset--color--vivid-cyan-blue) !important;
+        }
+
+        .has-vivid-purple-color {
+            color: var(--wp--preset--color--vivid-purple) !important;
+        }
+
+        .has-black-background-color {
+            background-color: var(--wp--preset--color--black) !important;
+        }
+
+        .has-cyan-bluish-gray-background-color {
+            background-color: var(--wp--preset--color--cyan-bluish-gray) !important;
+        }
+
+        .has-white-background-color {
+            background-color: var(--wp--preset--color--white) !important;
+        }
+
+        .has-pale-pink-background-color {
+            background-color: var(--wp--preset--color--pale-pink) !important;
+        }
+
+        .has-vivid-red-background-color {
+            background-color: var(--wp--preset--color--vivid-red) !important;
+        }
+
+        .has-luminous-vivid-orange-background-color {
+            background-color: var(--wp--preset--color--luminous-vivid-orange) !important;
+        }
+
+        .has-luminous-vivid-amber-background-color {
+            background-color: var(--wp--preset--color--luminous-vivid-amber) !important;
+        }
+
+        .has-light-green-cyan-background-color {
+            background-color: var(--wp--preset--color--light-green-cyan) !important;
+        }
+
+        .has-vivid-green-cyan-background-color {
+            background-color: var(--wp--preset--color--vivid-green-cyan) !important;
+        }
+
+        .has-pale-cyan-blue-background-color {
+            background-color: var(--wp--preset--color--pale-cyan-blue) !important;
+        }
+
+        .has-vivid-cyan-blue-background-color {
+            background-color: var(--wp--preset--color--vivid-cyan-blue) !important;
+        }
+
+        .has-vivid-purple-background-color {
+            background-color: var(--wp--preset--color--vivid-purple) !important;
+        }
+
+        .has-black-border-color {
+            border-color: var(--wp--preset--color--black) !important;
+        }
+
+        .has-cyan-bluish-gray-border-color {
+            border-color: var(--wp--preset--color--cyan-bluish-gray) !important;
+        }
+
+        .has-white-border-color {
+            border-color: var(--wp--preset--color--white) !important;
+        }
+
+        .has-pale-pink-border-color {
+            border-color: var(--wp--preset--color--pale-pink) !important;
+        }
+
+        .has-vivid-red-border-color {
+            border-color: var(--wp--preset--color--vivid-red) !important;
+        }
+
+        .has-luminous-vivid-orange-border-color {
+            border-color: var(--wp--preset--color--luminous-vivid-orange) !important;
+        }
+
+        .has-luminous-vivid-amber-border-color {
+            border-color: var(--wp--preset--color--luminous-vivid-amber) !important;
+        }
+
+        .has-light-green-cyan-border-color {
+            border-color: var(--wp--preset--color--light-green-cyan) !important;
+        }
+
+        .has-vivid-green-cyan-border-color {
+            border-color: var(--wp--preset--color--vivid-green-cyan) !important;
+        }
+
+        .has-pale-cyan-blue-border-color {
+            border-color: var(--wp--preset--color--pale-cyan-blue) !important;
+        }
+
+        .has-vivid-cyan-blue-border-color {
+            border-color: var(--wp--preset--color--vivid-cyan-blue) !important;
+        }
+
+        .has-vivid-purple-border-color {
+            border-color: var(--wp--preset--color--vivid-purple) !important;
+        }
+
+        .has-vivid-cyan-blue-to-vivid-purple-gradient-background {
+            background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;
+        }
+
+        .has-light-green-cyan-to-vivid-green-cyan-gradient-background {
+            background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;
+        }
+
+        .has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background {
+            background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;
+        }
+
+        .has-luminous-vivid-orange-to-vivid-red-gradient-background {
+            background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;
+        }
+
+        .has-very-light-gray-to-cyan-bluish-gray-gradient-background {
+            background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;
+        }
+
+        .has-cool-to-warm-spectrum-gradient-background {
+            background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;
+        }
+
+        .has-blush-light-purple-gradient-background {
+            background: var(--wp--preset--gradient--blush-light-purple) !important;
+        }
+
+        .has-blush-bordeaux-gradient-background {
+            background: var(--wp--preset--gradient--blush-bordeaux) !important;
+        }
+
+        .has-luminous-dusk-gradient-background {
+            background: var(--wp--preset--gradient--luminous-dusk) !important;
+        }
+
+        .has-pale-ocean-gradient-background {
+            background: var(--wp--preset--gradient--pale-ocean) !important;
+        }
+
+        .has-electric-grass-gradient-background {
+            background: var(--wp--preset--gradient--electric-grass) !important;
+        }
+
+        .has-midnight-gradient-background {
+            background: var(--wp--preset--gradient--midnight) !important;
+        }
+
+        .has-small-font-size {
+            font-size: var(--wp--preset--font-size--small) !important;
+        }
+
+        .has-medium-font-size {
+            font-size: var(--wp--preset--font-size--medium) !important;
+        }
+
+        .has-large-font-size {
+            font-size: var(--wp--preset--font-size--large) !important;
+        }
+
+        .has-x-large-font-size {
+            font-size: var(--wp--preset--font-size--x-large) !important;
+        }
+
+        .wp-block-navigation a:where(:not(.wp-element-button)) {
+            color: inherit;
+        }
+
+        :where(.wp-block-columns.is-layout-flex) {
+            gap: 2em;
+        }
+
+        .wp-block-pullquote {
+            font-size: 1.5em;
+            line-height: 1.6;
+        }
+    </style>
+    <link rel='stylesheet' id='contact-form-7-css' href='~/Website/wp-content/plugins/contact-form-7/includes/css/styles77e1.css?ver=5.6.4' media='all' />
+    <link rel='stylesheet' id='font-awesome-css' href='~/Website/wp-content/plugins/elementor/assets/lib/font-awesome/css/font-awesome.min1849.css?ver=4.7.0' media='all' />
+    <link rel='stylesheet' id='themify-css' href='~/Website/wp-content/themes/fablio/assets/themify-icons/themify-icons6a4d.css?ver=6.1.1' media='all' />
+    <link rel='stylesheet' id='woocommerce-layout-css' href='~/Website/wp-content/plugins/woocommerce/assets/css/woocommerce-layout823d.css?ver=7.0.0' media='all' />
+    <link rel='stylesheet' id='woocommerce-smallscreen-css' href='~/Website/wp-content/plugins/woocommerce/assets/css/woocommerce-smallscreen823d.css?ver=7.0.0' media='only screen and (max-width: 768px)' />
+    <link rel='stylesheet' id='woocommerce-general-css' href='~/Website/wp-content/plugins/woocommerce/assets/css/woocommerce823d.css?ver=7.0.0' media='all' />
+    <style id='woocommerce-inline-inline-css'>
+
+        .woocommerce form .form-row .required {
+            visibility: visible;
+        }
+    </style>
+    <link rel='stylesheet' id='wcz-frontend-css' href='~/Website/wp-content/plugins/woocustomizer/assets/css/frontendb2da.css?ver=2.4.3' media='all' />
+    <link rel='stylesheet' id='perfect-scrollbar-css' href='~/Website/wp-content/themes/fablio/assets/perfect-scrollbar/perfect-scrollbar.min6a4d.css?ver=6.1.1' media='all' />
+    <link rel='stylesheet' id='chrisbracco-tooltip-css' href='~/Website/wp-content/themes/fablio/assets/chrisbracco-tooltip/chrisbracco-tooltip.min6a4d.css?ver=6.1.1' media='all' />
+    <link rel='stylesheet' id='multi-columns-row-css' href='~/Website/wp-content/themes/fablio/css/multi-columns-row6a4d.css?ver=6.1.1' media='all' />
+    <link rel='stylesheet' id='select2-css' href='~/Website/wp-content/plugins/woocommerce/assets/css/select2823d.css?ver=7.0.0' media='all' />
+    <link rel='stylesheet' id='flexslider-css' href='~/Website/wp-content/plugins/js_composer/assets/lib/flexslider/flexslider.min8e94.css?ver=6.8.0' media='all' />
+    <link rel='stylesheet' id='themetechmount-fablio-icons-css' href='~/Website/wp-content/themes/fablio/assets/tm-fablio-icons/css/tm-fablio-icons6a4d.css?ver=6.1.1' media='all' />
+    <link rel='stylesheet' id='slick-css' href='~/Website/wp-content/themes/fablio/assets/slick/slick6a4d.css?ver=6.1.1' media='all' />
+    <link rel='stylesheet' id='slick-theme-css' href='~/Website/wp-content/themes/fablio/assets/slick/slick-theme6a4d.css?ver=6.1.1' media='all' />
+    <link rel='stylesheet' id='prettyphoto-css' href='~/Website/wp-content/plugins/js_composer/assets/lib/prettyphoto/css/prettyPhoto.min8e94.css?ver=6.8.0' media='all' />
+    <link rel='stylesheet' id='js_composer_front-css' href='~/Website/wp-content/plugins/js_composer/assets/css/js_composer.min8e94.css?ver=6.8.0' media='all' />
+    <style id='wcz-customizer-custom-css-inline-css'>
+
+        body.post-type-archive-product .woocommerce-breadcrumb {
+            display: none !important;
+        }
+
+        body.post-type-archive-product header.woocommerce-products-header .woocommerce-products-header__title {
+            display: none !important;
+        }
+
+        body.woocommerce form.woocommerce-ordering {
+            display: none !important;
+        }
+
+        body.woocommerce p.woocommerce-result-count {
+            display: none !important;
+        }
+
+        body.tax-product_cat .woocommerce-breadcrumb,
+        body.tax-product_tag .woocommerce-breadcrumb {
+            display: none !important;
+        }
+
+        body.tax-product_cat header.woocommerce-products-header,
+        body.tax-product_tag header.woocommerce-products-header {
+            display: none !important;
+        }
+
+        body.single-product .woocommerce-breadcrumb {
+            display: none !important;
+        }
+    </style>
+    <link rel='stylesheet' id='bootstrap-css' href='~/Website/wp-content/themes/fablio/css/bootstrap.min6a4d.css?ver=6.1.1' media='all' />
+    <link rel='stylesheet' id='bootstrap-theme-css' href='~/Website/wp-content/themes/fablio/css/bootstrap-theme.min6a4d.css?ver=6.1.1' media='all' />
+    <link rel='stylesheet' id='js-composer-tta-css' href='~/Website/wp-content/plugins/js_composer/assets/css/js_composer_tta.min6a4d.css?ver=6.1.1' media='all' />
+    <link rel='stylesheet' id='fablio-base-style-css' href='~/Website/wp-content/themes/fablio/css/base.min6a4d.css?ver=6.1.1' media='all' />
+    <link rel='stylesheet' id='fablio-main-style-css' href='~/Website/wp-content/themes/fablio/css/main.min6a4d.css?ver=6.1.1' media='all' />
+
+    <link href="~/Website/Style.css" rel="stylesheet" />
+    <link rel='stylesheet' id='fablio-responsive-style-css' href='~/Website/wp-content/themes/fablio/css/responsive.min6a4d.css?ver=6.1.1' media='all' />
+    <link rel='stylesheet' id='fablio-last-checkpoint-css' href='~/Website/wp-content/themes/fablio/css/fablio-last-checkpoint.min6a4d.css?ver=6.1.1' media='all' />
+    <script src='~/Website/wp-includes/js/jquery/jquery.mina7a0.js?ver=3.6.1' id='jquery-core-js'></script>
+    <script src='~/Website/wp-includes/js/jquery/jquery-migrate.mind617.js?ver=3.3.2' id='jquery-migrate-js'></script>
+    <script src='~/Website/wp-content/plugins/themetechmount-fablio-extras/js/jquery-resize.min6a4d.js?ver=6.1.1' id='jquery-resize-js'></script>
+    <link rel="https://api.w.org/" href="~/Website/wp-json/index.html" />
+    @*<link rel="alternate" type="application/json" href="~/Website/wp-json/wp/v2/product_cat/47.json" />*@
+    <meta name="generator" content="WordPress 6.1.1" />
+    <meta name="generator" content="WooCommerce 7.0.0" />
+    <link rel="alternate" type="application/json+oembed" href="~/Website/wp-json/oembed/1.0/embedc01c.json?url=https%3A%2F%2Fcobija.biz%2F" />
+    <link rel="alternate" type="text/xml+oembed" href="~/Website/wp-json/oembed/1.0/embedd887?url=https%3A%2F%2Fcobija.biz%2F&amp;format=xml" />
+    <!-- Inline CSS Start --><!-- Inline CSS End -->
+    <link href="~/Website/StyleC.css" rel="stylesheet" />
+    <script>
+        var tm_breakpoint = 1200;
+    </script>
+    <noscript>
+        <style>
+            .woocommerce-product-gallery {
+                opacity: 1 !important;
+            }
+        </style>
+    </noscript>
+    <meta name="generator" content="Powered by WPBakery Page Builder - drag and drop page builder for WordPress." />
+    <meta name="generator" content="Powered by Slider Revolution 6.5.19 - responsive, Mobile-Friendly Slider Plugin for WordPress with comfortable drag and drop interface." />
+    <link rel="icon" href="~/Website/wp-content/uploads/2022/10/cropped-icon-32x32.jpg" sizes="32x32" />
+    <link rel="icon" href="~/Website/wp-content/uploads/2022/10/cropped-icon-192x192.jpg" sizes="192x192" />
+    <link rel="apple-touch-icon" href="~/Website/wp-content/uploads/2022/10/cropped-icon-180x180.jpg" />
+    <script>
+        function setREVStartSize(e) {
+            //window.requestAnimationFrame(function() {
+            window.RSIW = window.RSIW === undefined ? window.innerWidth : window.RSIW;
+            window.RSIH = window.RSIH === undefined ? window.innerHeight : window.RSIH;
+            try {
+                var pw = document.getElementById(e.c).parentNode.offsetWidth,
+                    newh;
+                pw = pw === 0 || isNaN(pw) ? window.RSIW : pw;
+                e.tabw = e.tabw === undefined ? 0 : parseInt(e.tabw);
+                e.thumbw = e.thumbw === undefined ? 0 : parseInt(e.thumbw);
+                e.tabh = e.tabh === undefined ? 0 : parseInt(e.tabh);
+                e.thumbh = e.thumbh === undefined ? 0 : parseInt(e.thumbh);
+                e.tabhide = e.tabhide === undefined ? 0 : parseInt(e.tabhide);
+                e.thumbhide = e.thumbhide === undefined ? 0 : parseInt(e.thumbhide);
+                e.mh = e.mh === undefined || e.mh == "" || e.mh === "auto" ? 0 : parseInt(e.mh, 0);
+                if (e.layout === "fullscreen" || e.l === "fullscreen")
+                    newh = Math.max(e.mh, window.RSIH);
+                else {
+                    e.gw = Array.isArray(e.gw) ? e.gw : [e.gw];
+                    for (var i in e.rl) if (e.gw[i] === undefined || e.gw[i] === 0) e.gw[i] = e.gw[i - 1];
+                    e.gh = e.el === undefined || e.el === "" || (Array.isArray(e.el) && e.el.length == 0) ? e.gh : e.el;
+                    e.gh = Array.isArray(e.gh) ? e.gh : [e.gh];
+                    for (var i in e.rl) if (e.gh[i] === undefined || e.gh[i] === 0) e.gh[i] = e.gh[i - 1];
+
+                    var nl = new Array(e.rl.length),
+                        ix = 0,
+                        sl;
+                    e.tabw = e.tabhide >= pw ? 0 : e.tabw;
+                    e.thumbw = e.thumbhide >= pw ? 0 : e.thumbw;
+                    e.tabh = e.tabhide >= pw ? 0 : e.tabh;
+                    e.thumbh = e.thumbhide >= pw ? 0 : e.thumbh;
+                    for (var i in e.rl) nl[i] = e.rl[i] < window.RSIW ? 0 : e.rl[i];
+                    sl = nl[0];
+                    for (var i in nl) if (sl > nl[i] && nl[i] > 0) { sl = nl[i]; ix = i; }
+                    var m = pw > (e.gw[ix] + e.tabw + e.thumbw) ? 1 : (pw - (e.tabw + e.thumbw)) / (e.gw[ix]);
+                    newh = (e.gh[ix] * m) + (e.tabh + e.thumbh);
+                }
+                var el = document.getElementById(e.c);
+                if (el !== null && el) el.style.height = newh + "px";
+                el = document.getElementById(e.c + "_wrapper");
+                if (el !== null && el) {
+                    el.style.height = newh + "px";
+                    el.style.display = "block";
+                }
+            } catch (e) {
+                console.log("Failure at Presize of Slider:" + e)
+            }
+            //});
+        };</script>
+    <noscript>
+        <style>
+            .wpb_animate_when_almost_visible {
+                opacity: 1;
+            }
+        </style>
+    </noscript>
+
+</head>
+<body class="archive tax-product_cat term-motorbike-boots term-47 theme-fablio woocommerce woocommerce-page woocommerce-no-js wcz-woocommerce tm-headerstyle-classic-box-overlay themetechmount-topbar-yes themetechmount-footer-cta-yes themetechmount-wide themetechmount-sidebar-true themetechmount-sidebar-right tm-empty-sidebar wpb-js-composer js-comp-ver-6.8.0 vc_responsive elementor-default elementor-kit-7">
+    <div class="main-holder">
+        <div id="page" class="hfeed site">
+            <header id="masthead" class=" tm-header-style-classic-box tm-header-overlay tm-main-menu-total-5">
+                <div class="tm-header-block  tm-mmenu-active-color-skin tm-dmenu-active-color-skin tm-dmenu-sep-grey">
+                    <div class="tm-search-overlay">
+                        <div class="tm-bg-layer"></div>
+                        <div class="tm-icon-close"></div>
+                        @*<div class="tm-search-outer">
+                        <div class="tm-form-title">Hi, How Can We Help You?</div>
+                        <form method="get" class="tm-site-searchform" action="https://cobija.biz/">
+                            <input type="search" class="field searchform-s" name="s" placeholder="Type Word Then Enter.." />
+                            <button type="submit"><span class="tm-fablio-icon-search"></span></button>
+                        </form>
+                    </div>*@
+                    </div>
+
+                    <div class="themetechmount-topbar-wrapper tm-bgcolor-darkgrey tm-textcolor-white">
+                        <div class="themetechmount-topbar-inner">
+                            <div class="container tm-container-for-topbar">
+                                <div class="tm-wrap tm-topbar-content"><div class="tm-wrap-cell"><ul class="top-contact"><li><i class="fa fa-envelope-o tm-skincolor"></i><a href="mailto:info@mcctrader.com">info@mcctrader.com</a></li></ul></div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tm-stickable-header-w" class="tm-stickable-header-w tm-bgcolor-white" style="height:100px">
+                        <div id="site-header" class="site-header tm-stickable-header tm-bgcolor-white tm-sticky-bgcolor-white tm-mmmenu-override-yes tm-above-content-yes">
+
+                            <div class="container tm-container-for-header tm-bgcolor-white tm-sticky-bgcolor-white tm-mmmenu-override-yes tm-above-content-yes">
+                                <div class="site-header-main tm-wrap ">
+
+                                    <div class="site-branding tm-wrap-cell">
+                                        <div class="headerlogo themetechmount-logotype-image tm-stickylogo-no"><div class="tm-header-site-desc"><span class="site-title"><a class="home-link" href="@Url.Action("Index")" title="MCC TRADER" rel="home"><span class="tm-sc-logo tm-sc-logo-type-image">@*<img class="themetechmount-logo-img standardlogo" alt="MCC TRADER" src="../../wp-content/uploads/2022/04/298x80.jpg">*@ <b>MCC TRADER</b></span></a></span></div></div>
+                                    </div><!-- .site-branding -->
+                                    <div id="site-header-menu" class="site-header-menu tm-wrap-cell">
+
+                                        <nav id="site-navigation" class="main-navigation" aria-label="Primary Menu" data-sticky-height="80">
+
+
+                                            <button id="menu-toggle" class="menu-toggle">
+                                                <span class="tm-hide">Toggle menu</span><i class="tm-fablio-icon-bars"></i>
+                                            </button>
+
+                                            <div class="nav-menu">
+                                                <ul id="menu-main-menu" class="nav-menu">
+                                                    <li id="menu-item-1576" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1576"><a href="@Url.Action("Index")"><b>Home</b></a></li>
+                                                    <li id="menu-item-1576" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1576"><a href="@Url.Action("Gallery")"><b>Galleries</b></a></li>
+                                                    <li id="menu-item-1576" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1576"><a href="@Url.Action("AboutUs")"><b>About Us</b></a></li>
+                                                    <li id="menu-item-1581" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1581"><a href="@Url.Action("ContactUs")"><b>CONTACT US</b></a></li>
+                                                </ul>
+                                            </div>
+                                        </nav><!-- .main-navigation -->
+                                    </div><!-- .site-header-menu -->
+                                </div>
+                            </div>
+                            <!-- .site-header-main -->
+                        </div>
+                        @*<div class="themetechmount-social-links-wrapper">
+                        <ul class="social-icons">
+                            <li class="tm-social-facebook"><a class=" tooltip-top" target="_blank" href="https://www.facebook.com/cobijagroup"><i class="tm-fablio-icon-facebook"></i></a></li>
+                            <li class="tm-social-instagram"><a class=" tooltip-top" target="_blank" href="https://www.instagram.com/cobijagroup"><i class="tm-fablio-icon-instagram"></i></a></li>
+                            <li class="tm-social-linkedin"><a class=" tooltip-top" target="_blank" href="https://www.linkedin.com/company/cobija-group"><i class="tm-fablio-icon-linkedin"></i></a></li>
+                            <li class="tm-social-youtube"><a class=" tooltip-top" target="_blank" href="https://www.youtube.com/channel/UCF-3xhkw42dfK6gS-icYQAA"><i class="tm-fablio-icon-youtube"></i></a></li>
+                        </ul>
+                    </div>*@
+                    </div>
+                    <!-- .tm-titlebar-wrapper -->
+                </div>
+            </header><!-- .site-header -->
+            @RenderBody()
+            <footer id="colophon" class="site-footer">
+                <div class="footer_inner_wrapper footer tm-bg tm-bgcolor-custom tm-bgimage-no tm-footer-cta-default tm-footer-cta-yes">
+                    <div class="site-footer-bg-layer tm-bg-layer"></div>
+                    <div class="site-footer-w">
+                        <div class="footer-rows">
+                            <div class="footer-rows-inner">
+
+
+
+                                <div id="first-footer" class="sidebar-container first-footer  tm-bg tm-bgcolor-transparent tm-textcolor-white tm-bgimage-no tm-footerrow-sepnone tm-widgetsep-no" role="complementary">
+                                    <div class="first-footer-bg-layer tm-bg-layer"></div>
+                                    <div class="container tm-container-for-footer">
+                                        <div class="first-footer-inner">
+                                            <div class="row multi-columns-row">
+                                                <div class="widget-area col-xs-12 col-sm-9 col-md-9 col-lg-9 first-widget-area">
+                                                    <div class="tm-wrap tm-info-widgettext">
+                                                        <div class="tm-wrap-cell tm-company-logo">
+                                                            <b style="color:white;font-size:28px">MCC TRADER</b>
+                                                            @*<img src="../../wp-content/uploads/2022/04/PNG-logo-new.png" alt="Cobija Industries" style="max-width: 170px;">*@
+                                                        </div>
+                                                        <div class="tm-wrap-cell">
+                                                            <p><strong>MCC TRADER</strong> We manufacture and provide the best quality tuff tiles, pavers, elevation tiles, kerbstone, 3D Tuff Tiles, Parking tiles / Outdoors Tiles, Front Elevation Tiles, and floor tiles at wholesale rates. Quality tuff tiles and pavers at a reasonable price are our priority.</p>
+                                                            <div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div><!-- .widget-area -->
+
+
+
+                                            </div><!-- .row.multi-columns-row -->
+                                        </div><!-- .first-footer-inner -->
+                                    </div><!--  -->
+                                </div><!-- #secondary -->
+
+
+                                <div id="second-footer" class="sidebar-container second-footer tm-bg tm-bgcolor-transparent tm-textcolor-white tm-bgimage-no" role="complementary">
+                                    <div class="second-footer-bg-layer tm-bg-layer"></div>
+                                    <div class="container tm-container-for-footer">
+                                        <div class="second-footer-inner">
+                                            <div class="row multi-columns-row">
+
+
+                                                <div class="widget-area col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                                                    <h3 class="widget-title">Contact Us</h3>
+                                                    <ul class="fablio_contact_widget_wrapper tm-custome-border-style">
+                                                        <li class="themetechmount-contact-address tm-fablio-icon-location">Mahr City, 12-KM Lopowali, Wazirabad Road, Sialkot,51310</li>
+                                                        <li class="themetechmount-contact-phonenumber tm-fablio-icon-whatsapp">  0325-619-0000</li>
+                                                        <li class="themetechmount-contact-phonenumber tm-fablio-icon-phone"> 0330-619-0000</li>
+                                                        <li class="themetechmount-contact-email tm-fablio-icon-mail"><a href="mailto:info@mcctrader.com" target="_blank">info@mcctrader.com</a></li>
+                                                    </ul>
+                                                </div><!-- .widget-area -->
+
+                                                <div class="widget-area col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                                                    <aside id="nav_menu-1" class="widget-even widget-2 widget widget_nav_menu">
+                                                        <h3 class="widget-title">Company Info</h3><div class="menu-footer-link1-container">
+                                                            <ul id="menu-footer-link1-1" class="menu">
+                                                                <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1571"><a href="@Url.Action("Index")">Home</a></li>
+                                                                <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1572"><a href="@Url.Action("Gallery")">Galleries</a></li>
+                                                                <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1573"><a href="@Url.Action("AboutUs")">About Us</a></li>
+                                                                <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1574"><a href="@Url.Action("ContactUs")">Contact Us</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </aside>
+                                                </div><!-- .widget-area -->
+
+
+                                                <div class="widget-area col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                                                    <div class="tm-text-align-right tm-reset-align767">
+                                                        <div class="themetechmount-social-links-wrapper">
+                                                            <ul class="social-icons">
+                                                                <li class="tm-social-facebook"><a class=" tooltip-top" target="_blank" href="https://www.facebook.com/McTuffTiles"><i class="tm-fablio-icon-facebook"></i></a></li>
+                                                                <li class="tm-social-instagram"><a class=" tooltip-top" target="_blank" href="https://www.instagram.com/McTuffTiles"><i class="tm-fablio-icon-instagram"></i></a></li>
+                                                                <li class="tm-social-linkedin"><a class=" tooltip-top" target="_blank" href="https://www.linkedin.com/company/McTuffTiles"><i class="tm-fablio-icon-linkedin"></i></a></li>
+                                                                <li class="tm-social-youtube"><a class=" tooltip-top" target="_blank" href="https://www.youtube.com/channel/McTuffTiles"><i class="tm-fablio-icon-youtube"></i></a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div><!-- .widget-area -->
+
+
+                                            </div><!-- .row.multi-columns-row -->
+                                        </div><!-- .second-footer-inner -->
+                                    </div><!--  -->
+                                </div><!-- #secondary -->
+
+                                <div class="tm-footer-cta-block">
+                                    <div class="container tm-cta-inner-block">
+                                        <div class="tm-footer-cta-wrapper tm-bg tm-bgcolor-darkgrey tm-textcolor-white">
+                                            <div class="tm-sboxfooter-cta-inner">
+                                                <div class="tm-sboxctabox-row row">
+                                                    <div class="widget-area col-xs-12 col-sm-12 col-md-12 col-lg-12 cta-widget-area">
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- .footer-inner -->
+                        </div><!-- .footer -->
+
+                        <div id="bottom-footer-text" class="bottom-footer-text tm-bottom-footer-text site-info  tm-bg tm-bgcolor-custom tm-textcolor-white tm-bgimage-no tm-bordercolor-none">
+                            <div class="bottom-footer-bg-layer tm-bg-layer"></div>
+                            <div class="container tm-container-for-footer">
+                                <div class="bottom-footer-inner">
+                                    <div class="row multi-columns-row">
+                                        <div class="col-xs-12 col-sm-12 tm-footer2-left ">
+                                            Copyright © 2023 <a href="@Url.Action("Index")">MCC TRADER</a> All rights reserved.
+                                        </div><!--.footer menu -->
+
+
+                                        <div class="col-xs-12 col-sm-5 ">
+                                        </div><!--.copyright -->
+                                    </div><!-- .row.multi-columns-row -->
+                                </div><!-- .bottom-footer-inner -->
+                            </div><!--  -->
+                        </div><!-- .footer-text -->
+                    </div><!-- .footer-inner-wrapper -->
+                </div><!-- .site-footer-inner -->
+            </footer><!-- .site-footer -->
+        </div>
+    </div>
+    <script>
+        window.RS_MODULES = window.RS_MODULES || {};
+        window.RS_MODULES.modules = window.RS_MODULES.modules || {};
+        window.RS_MODULES.waiting = window.RS_MODULES.waiting || [];
+        window.RS_MODULES.defered = true;
+        window.RS_MODULES.moduleWaiting = window.RS_MODULES.moduleWaiting || {};
+        window.RS_MODULES.type = 'compiled';
+    </script>
+    <script>"use strict";</script>
+    <script>
+        (function () {
+            var c = document.body.className;
+            c = c.replace(/woocommerce-no-js/, 'woocommerce-js');
+            document.body.className = c;
+        })();
+    </script>
+    <link rel='stylesheet' id='themetechmount-cs-google-fonts-css' href='http://fonts.googleapis.com/css?family=Rubik%3A300%2C300italic%2C400%2Citalic%2C500%2C500italic%2C700%2C700italic%2C900%2C900italic%7CArimo%3A400%7COpen+Sans%3A600' media='all' />
+    <link rel='stylesheet' id='rs-plugin-settings-css' href='~/Website/wp-content/plugins/revslider/public/assets/css/rs6be51.css?ver=6.5.19' media='all' />
+    <style id='rs-plugin-settings-inline-css'>
+
+        #rs-demo-id {
+        }
+    </style>
+    <script src='~/Website/wp-content/plugins/contact-form-7/includes/swv/js/index77e1.js?ver=5.6.4' id='swv-js'></script>
+    <script id='contact-form-7-js-extra'>
+        /* <![CDATA[ */
+        var wpcf7 = { "api": { "root": "https:\/\/cobija.biz\/wp-json\/", "namespace": "contact-form-7\/v1" } };
+        /* ]]> */
+    </script>
+    <script src='~/Website/wp-content/plugins/contact-form-7/includes/js/index77e1.js?ver=5.6.4' id='contact-form-7-js'></script>
+    <script src='~/Website/wp-content/plugins/revslider/public/assets/js/rbtools.min8331.js?ver=6.5.18' defer async id='tp-tools-js'></script>
+    <script src='~/Website/wp-content/plugins/revslider/public/assets/js/rs6.minbe51.js?ver=6.5.19' defer async id='revmin-js'></script>
+    <script src='~/Website/wp-content/plugins/woocommerce/assets/js/jquery-blockui/jquery.blockUI.mindc32.js?ver=2.7.0-wc.7.0.0' id='jquery-blockui-js'></script>
+    <script src='~/Website/wp-content/plugins/woocommerce/assets/js/js-cookie/js.cookie.minc599.js?ver=2.1.4-wc.7.0.0' id='js-cookie-js'></script>
+    <script id='woocommerce-js-extra'>
+        /* <![CDATA[ */
+        var woocommerce_params = { "ajax_url": "\/wp-admin\/admin-ajax.php", "wc_ajax_url": "\/?wc-ajax=%%endpoint%%" };
+        /* ]]> */
+    </script>
+    <script src='~/Website/wp-content/plugins/woocommerce/assets/js/frontend/woocommerce.min823d.js?ver=7.0.0' id='woocommerce-js'></script>
+    <script id='wc-cart-fragments-js-extra'>
+        /* <![CDATA[ */
+        var wc_cart_fragments_params = { "ajax_url": "\/wp-admin\/admin-ajax.php", "wc_ajax_url": "\/?wc-ajax=%%endpoint%%", "cart_hash_key": "wc_cart_hash_9ca36715b6c3165a69af2e0f184b3c74", "fragment_name": "wc_fragments_9ca36715b6c3165a69af2e0f184b3c74", "request_timeout": "5000" };
+/* ]]> */
+    </script>
+    <script src='~/Website/wp-content/plugins/woocommerce/assets/js/frontend/cart-fragments.min823d.js?ver=7.0.0' id='wc-cart-fragments-js'></script>
+    <script src='~/Website/wp-content/themes/fablio/assets/perfect-scrollbar/perfect-scrollbar.jquery.min6a4d.js?ver=6.1.1' id='perfect-scrollbar-js'></script>
+    <script src='~/Website/wp-content/plugins/woocommerce/assets/js/select2/select2.full.min8d46.js?ver=4.0.3-wc.7.0.0' id='select2-js'></script>
+    <script src='~/Website/wp-content/themes/fablio/assets/isotope/isotope.pkgd.min6a4d.js?ver=6.1.1' id='isotope-pkgd-js'></script>
+    <script src='~/Website/wp-content/themes/fablio/assets/jquery-mousewheel/jquery.mousewheel.min6a4d.js?ver=6.1.1' id='jquery-mousewheel-js'></script>
+    <script src='~/Website/wp-content/themes/fablio/assets/flexslider/jquery.flexslider-min6a4d.js?ver=6.1.1' id='jquery-flexslider-js'></script>
+    <script src='~/Website/wp-content/themes/fablio/assets/sticky-kit/jquery.sticky-kit.min6a4d.js?ver=6.1.1' id='jquery-sticky-kit-js'></script>
+    <script src='~/Website/wp-content/themes/fablio/assets/slick/slick.min6a4d.js?ver=6.1.1' id='slick-js'></script>
+    <script src='~/Website/wp-content/themes/fablio/assets/datecounter/timecircles6a4d.js?ver=6.1.1' id='timecircles-js'></script>
+    <script src='~/Website/wp-content/plugins/js_composer/assets/lib/prettyphoto/js/jquery.prettyPhoto.min8e94.js?ver=6.8.0' id='prettyphoto-js'></script>
+    <script src='~/Website/wp-content/plugins/js_composer/assets/js/dist/js_composer_front.min8e94.js?ver=6.8.0' id='wpb_composer_front_js-js'></script>
+    <script src='~/Website/wp-content/themes/fablio/js/functions.min5152.js?ver=1.0' id='fablio-functions-js'></script>
+</body>
+</html>

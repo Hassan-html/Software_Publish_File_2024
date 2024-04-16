@@ -1,0 +1,114 @@
+﻿
+@{
+                /**/
+
+                ViewBag.Title = "Check";
+                Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="jumbotron m-5">
+        <a href="@Url.Action("Home","Home")" class="btn btn-secondary form-control">Back To Home</a>
+        <hr />
+        <label><b>Select Product Item</b></label>
+        <input type="text" class="form-control form-control-lg" id="itemcode" placeholder="Select Product Item" />
+        <label><b>Select Product Name</b></label>
+        <input type="text" class="form-control form-control-lg" id="itemname" placeholder="Select Product Item" />
+        <label><b>Product Price</b></label>
+        <input type="number" class="form-control form-control-lg" id="price" placeholder="Product Price" style="height:1.5em;font-size:1.4em;font-weight:bold" />
+        <label><b>Current Stock</b></label>
+        <input type="number" class="form-control form-control-lg" id="stock" placeholder="Current Stock" style="height:1.5em;font-size:1.4em;font-weight:bold" />
+    </div>
+</div>
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<link href="~/KendoUI/default-ocean-blue.css" rel="stylesheet" />
+<script src="~/KendoUI/jquery.min.js"></script>
+<script src="~/KendoUI/jszip.min.js"></script>
+<script src="~/KendoUI/kendo.all.min.js"></script>
+<script>
+    $(document).ready(function () {
+        dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/Purchase/getProduct",
+                    dataType: "json"
+                }
+            }
+        });
+        $("#itemcode").kendoMultiColumnComboBox({
+            dataTextField: "Item",
+            dataValueField: "BatchNo",
+            height: 450,
+            columns: [
+                {
+                    field: "Barcode",
+                    title: "Barcode",
+                    width: 150
+                },
+                {
+                    field: "Item",
+                    title: "Item",
+                    width: 400
+                }
+                //,
+                //{
+                //    field: "Size",
+                //    title: "Size",
+                //    width: 150
+                //},
+                //{
+                //    field: "Colour",
+                //    title: "Colour",
+                //    width: 100
+                //}
+                ,
+                {
+                    field: "CostRate",
+                    title: "CostRate",
+                    width: 150
+                },
+                {
+                    field: "SaleRate",
+                    title: "SaleRate",
+                    width: 150
+                },
+                {
+                    field: "Stock",
+                    title: "Stock",
+                    width: 150
+                }
+            ],
+            footerTemplate: 'Total #: instance.dataSource.total() # items found',
+            filter: "contains",
+            filterFields: ["Barcode", "Item", "Size"],
+            dataSource: dataSource
+        });
+        $("#itemcode").change(function () {
+            var barcode = $("#itemcode").val();
+            var empObj = {
+                //Barcode: barcode
+                BatchNo: barcode
+            };
+            $.ajax({
+                url: "/Purchase/FetchRateBatchNo",//FetchRate
+                data: JSON.stringify(empObj),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    $("#itemcode").val(result.Item);
+                    $("#itemname").val(result.Item);
+                    $("#price").val(result.SaleRate);
+                    $("#stock").val(result.Stock);
+                    var item = $('#itemcode').data("kendoMultiColumnComboBox");
+                    item.value(null);
+                    $("#itemcode").focus();
+                },
+                error: function (errormessage) {
+                    alert("Entities Change Or Remove....");
+                }
+            });
+        });
+    });
+</script>

@@ -1,0 +1,265 @@
+﻿@model IEnumerable<SialkotSweet.Models.Tbl_SaleInvoice>
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container-fluid">
+    @using (Html.BeginForm("ListReport", "Sale"))
+    {
+        <div class="row p-2">
+            <div class="col-md-2">
+                <input type="text" class="form-control" name="ccode" onkeyup="myFunctions()" id="ccode" placeholder="Search by: Rider" />
+            </div>
+            <div class="col-md-2">
+                <input type="text" class="form-control" id="dt1" name="dt1" placeholder="Select First Date" autocomplete="off" />
+            </div>
+            <div class="col-md-2">
+                <input type="text" class="form-control" id="dt2" name="dt2" placeholder="Select Last Date" autocomplete="off" />
+            </div>
+            <div class="col-md-2">
+                <input type="submit" name="submit" value="Search" class=" btn btn-primary form-control" />
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-warning form-control" onclick="printdiv('div_print');"><i class="fa fa-print"></i> Print</button>
+            </div>
+            <div class="col-md-2">
+                <a href="@Url.Action("Home","Home")" class="btn btn-dark form-control"><i class="fa fa-home"></i> Home</a>
+            </div>
+        </div>
+    }
+    <div class="table mt-2" id="div_print">
+        <div class="col-md-12">
+            <b style="font-size:22px;float:left;">@SialkotSweet.Controllers.SaleController.Receipt_Name()</b><br />
+            <b style="font-size:22px;float:right">RIDER SALE REPORT</b><br />
+            <b style="float:left">@SialkotSweet.Controllers.SaleController.Address()</b><br /><b>Contact No# @SialkotSweet.Controllers.SaleController.Mobile()  / @SialkotSweet.Controllers.SaleController.Phone() </b>
+            <b style="float:right">Print Date: @DateTime.Now.ToShortDateString()</b><br />
+        </div>
+        <div class="col-md-2" style="float:right">
+            <span style="float:right">No of Invoice's: <b>@Model.Count()</b> </span>
+        </div>
+        <table class="table table-sm table-bordered" id="myTable">
+            <thead>
+                <tr class="bg-danger text-light">
+                    <td><b>Invoice#</b></td>
+                    <td><b>Date</b></td>
+                    <td><b>Delivery</b></td>
+                    <td><b>Customer</b></td>
+                    <td><b>Contact</b></td>
+                    <td><b>Address</b></td>
+                    <td><b>D.Time</b></td>
+                    <td><b>Rider</b></td>
+                    <td><b>CostTotal</b></td>
+                    <td><b>SaleTotal</b></td>
+                    <td><b>Discount</b></td>
+                    <td><b>Total</b></td>
+                    <td><b>Del.Charges</b></td>
+                    <td><b>NetTotal</b></td>
+                    <td><b>Paid</b></td>
+                    <td><b>Balance</b></td>
+                    <td><b>Profit</b></td>
+                </tr>
+            </thead>
+            <tbody id="tbllist">
+                @foreach (var i in Model)
+                {
+                <tr>
+                    <td>@i.SaleID</td>
+                    <td>@i.Date.Value.ToShortDateString()</td>
+                    <td>@i.DDate.Value.ToShortDateString()</td>
+                    <td>@i.Name</td>
+                    <td>@i.GatePass</td>
+                    <td>@i.VehicleNo</td>
+                    <td>@i.ITime</td>
+                    <td>@i.CustomerName</td>
+                    <td>@i.CostAmt</td>
+                    <td>@i.SaleAmt</td>
+                    <td>@i.Discount</td>
+                    <td>@i.TotalAmt</td>
+                    <td>@i.Charges</td>
+                    <td>@i.NetTotal</td>
+                    <td>@i.Payment</td>
+                    <td>@{ViewBag.bal = Convert.ToDecimal(Convert.ToDecimal(i.NetTotal) - Convert.ToDecimal(i.Payment));} @ViewBag.bal</td>
+                    <td>@{ViewBag.sum = Convert.ToDecimal(Convert.ToDecimal(i.TotalAmt) - Convert.ToDecimal(i.CostAmt));} @ViewBag.sum</td>
+                </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="8" align="center">
+                        <b><i class="fa fa-money"></i> Total Value's:</b>
+                    </td>
+                    <td>
+                        <b>@Model.Sum(x => x.CostAmt) </b>
+                    </td>
+                    <td>
+                        <b>@Model.Sum(x => x.SaleAmt)</b>
+                    </td>
+                    <td>
+                        <b>@Model.Sum(x => x.Discount)</b>
+                    </td>
+                    <td>
+                        <b>@Model.Sum(x => x.TotalAmt)</b>
+                    </td>
+                    <td>
+                        <b>@Model.Sum(x => x.Charges)</b>
+                    </td>
+                    <td>
+                        <b>@Model.Sum(x => x.NetTotal)</b>
+                    </td>
+                    <td>
+                        <b>@Model.Sum(x => x.Payment)</b>
+                    </td>
+                    <td>
+                        @{ViewBag.tbal = Convert.ToDecimal(Convert.ToDecimal(Model.Sum(x => x.NetTotal)) - Convert.ToDecimal(Model.Sum(x => x.Payment)));} <b>@ViewBag.tbal</b>
+                    </td>
+                    <td>
+                        @{ViewBag.tsum = Convert.ToDecimal(Convert.ToDecimal(Model.Sum(x => x.NetTotal)) - Convert.ToDecimal(Model.Sum(x => x.CostAmt)));} <b>@ViewBag.tsum</b>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <div class="col-md-2" style="float:right">
+        <button class="btn btn-primary form-control" onclick="exportTableToExcel('myTable', 'Rider_Sale_Report')">Export to Excel</button>
+    </div>
+    <br /><br />
+</div>
+<style>
+    table thead {
+    }
+
+        table thead tr th {
+            font-size: 14px;
+        }
+
+    table tbody tr td {
+        font-size: 14px;
+    }
+</style>
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.2/xlsx.full.min.js"></script>
+<link href="~/KendoUI/examples-offline.css" rel="stylesheet" />
+<link href="~/KendoUI/default-ocean-blue.css" rel="stylesheet" />
+<script src="~/KendoUI/jquery.min.js"></script>
+<script src="~/KendoUI/jszip.min.js"></script>
+<script src="~/KendoUI/kendo.all.min.js"></script>
+<script>
+    function exportTableToExcel(tableID, filename) {
+        const table = document.getElementById(tableID);
+        const wb = XLSX.utils.table_to_book(table, { sheet: "Sheet1" });
+
+        // Modify date cells to use custom number format
+        const ws = wb.Sheets.Sheet1;
+        for (const cell in ws) {
+            if (cell.startsWith('C') && ws[cell].t === 'd') {
+                ws[cell].z = 'dd/mm/yyyy'; // Custom number format
+            }
+        }
+
+        // Generate the XLSX file
+        const wbout = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+
+        // Convert to Blob and create a download link
+        const blob = new Blob([wbout], { type: "application/octet-stream" });
+        const url = URL.createObjectURL(blob);
+
+        // Create a download link and trigger the download
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `${filename}.xlsx`;
+        a.click();
+
+        // Clean up
+        setTimeout(() => {
+            URL.revokeObjectURL(url);
+        }, 100);
+    };
+    $(document).ready(function () {
+        //value: new Date(),
+        $("#dt1").kendoDatePicker({ format: "yyyy-MM-dd", });
+        $("#dt2").kendoDatePicker({ format: "yyyy-MM-dd", });
+        dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/Customer/getCustomer",
+                    dataType: "json"
+                }
+            }
+        });
+        $("#ccode").kendoMultiColumnComboBox({
+            dataTextField: "CustomerName",
+            dataValueField: "CCode",
+            height: 450,
+            columns: [
+                {
+                    field: "CCode",
+                    title: "Cust-Code",
+                    width: 150
+                },
+                {
+                    field: "CustomerName",
+                    title: "Cust-Name",
+                    width: 200
+                },
+                {
+                    field: "CompanyName",
+                    title: "Company Name",
+                    width: 200
+                },
+                {
+                    field: "Mobile",
+                    title: "Mobile",
+                    width: 200
+                },
+                {
+                    field: "Address",
+                    title: "Address",
+                    width: 400
+                },
+                {
+                    field: "Balance",
+                    title: "Balance",
+                    width: 200
+                }
+            ],
+            filter: "contains",
+            filterFields: ["CustomerName", "CCode", "CompanyName", "Mobile"],
+            dataSource: dataSource
+        });
+    });
+    function printdiv(printpage) {
+        $(".companyheader").show();
+        $(".hii").hide();
+        var headstr = "<html><head><title></title></head><body>";
+        var footstr = "</body>";
+        var newstr = document.all.item(printpage).innerHTML;
+        var oldstr = document.body.innerHTML;
+        document.body.innerHTML = headstr + newstr + footstr;
+        window.print();
+        document.body.innerHTML = oldstr;
+        return false;
+    }
+    function myFunctions() {
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("vname");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("tbllist");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[3];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    };
+</script>
+

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="fa70299461a54849a8460451e1b99ac8" Name="Diagram1">
+        <EntityTypeShape EntityType="FinalDistributionDbModel.Tbl_AccountsHead" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FinalDistributionDbModel.Tbl_Customer" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FinalDistributionDbModel.Tbl_CustomerBook" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FinalDistributionDbModel.Tbl_Payment" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FinalDistributionDbModel.Tbl_PurchaseInvoice" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FinalDistributionDbModel.Tbl_Register" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FinalDistributionDbModel.Tbl_Rider" Width="1.5" PointX="0.625" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="FinalDistributionDbModel.Tbl_SaleInvoice" Width="1.5" PointX="4.75" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="FinalDistributionDbModel.Tbl_SaleInvoiceItem" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FinalDistributionDbModel.Tbl_SaleInvoiceItemMarbel" Width="1.5" PointX="8.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FinalDistributionDbModel.Tbl_SaleInvoiceItemMarbelLedger" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FinalDistributionDbModel.Tbl_SaleInvoiceLedger" Width="1.5" PointX="0.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FinalDistributionDbModel.Tbl_SaleReport" Width="1.5" PointX="2.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FinalDistributionDbModel.Tbl_Vendor" Width="1.5" PointX="10.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FinalDistributionDbModel.Tbl_VendorBook" Width="1.5" PointX="10.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FinalDistributionDbModel.TblAccount" Width="1.5" PointX="12.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FinalDistributionDbModel.TblExpense" Width="1.5" PointX="12.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FinalDistributionDbModel.TblExpenseReport" Width="1.5" PointX="12.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FinalDistributionDbModel.TblInOutAccount" Width="1.5" PointX="8.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FinalDistributionDbModel.TblInOutBook" Width="1.5" PointX="10.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FinalDistributionDbModel.TblProfile" Width="1.5" PointX="12.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FinalDistributionDbModel.TblPurchaseItem" Width="1.5" PointX="4.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FinalDistributionDbModel.TblReceipi" Width="1.5" PointX="14.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FinalDistributionDbModel.TblSaleItem" Width="1.5" PointX="14.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FinalDistributionDbModel.TblSaleItemAdjustment" Width="1.5" PointX="14.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FinalDistributionDbModel.TblStockAdjustment" Width="1.5" PointX="14.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FinalDistributionDbModel.TblStockReport" Width="1.5" PointX="6.75" PointY="12.875" />
+        <EntityTypeShape EntityType="FinalDistributionDbModel.TblStockSoldReport" Width="2" PointX="0.75" PointY="15.5" />
+        <EntityTypeShape EntityType="FinalDistributionDbModel.Tbl_PurchaseInvoiceItem" Width="2.125" PointX="8.625" PointY="15.875" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

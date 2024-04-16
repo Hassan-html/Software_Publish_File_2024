@@ -1,0 +1,56 @@
+﻿@model IEnumerable<SialkotSweet.Models.Tbl_Payment>
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+    <b style="font-size:1.2em;text-align:center">Payment Details</b>
+    <a href="@Url.Action("List","Payment")" class="btn btn-primary form-control mt-1">Add New Payment</a>
+    <table class="table table-bordered table-sm mt-2">
+        <thead>
+            <tr>
+                <th style="width:70%">Description:</th>
+                <th style="width:10%">Payment</th>
+                <th style="width:10%">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var i in Model)
+            {
+                if (i.Status > 0)
+                {
+                    <tr>
+                        <td style="width:70%">@i.Narration / @i.Date.Value.ToShortDateString()</td>
+                        <td style="width:10%">@i.Payment</td>
+                        <td style="width:10%"><b class="btn btn-success"><i class="fa fa-check-square-o"></i></b></td>
+                        <td style="width:10%">
+                            <a href="@Url.Action("Index","Payment",new {Id=i.Id })" class="btn btn-sm btn-warning">Edit</a>
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td style="width:70%">@i.Narration / @i.Date.Value.ToShortDateString()</td>
+                        <td style="width:10%">@i.Payment</td>
+                        <td style="width:10%"><b class="btn btn-danger"><i class="fa fa-close"></i></b></td>
+                        <td style="width:10%">
+                            <a href="@Url.Action("Index","Payment",new {Id=i.Id })" class="btn btn-sm btn-warning">Edit</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td align="center" colspan="3">
+                    <b>Total Value's:</b>
+                </td>
+                <td>
+                    <b>@Model.Sum(x => x.Payment)</b>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+

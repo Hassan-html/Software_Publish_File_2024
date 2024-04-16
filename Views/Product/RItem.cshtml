@@ -1,0 +1,205 @@
+﻿@model SialkotSweet.Models.TblReceipi
+@{
+    ViewBag.Title = "RItem";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+    <h4 class="text-center"><b>Add New Receipies</b></h4>
+    <p class="text-center"><b>@ViewBag.msg</b></p>
+    @using (Html.BeginForm("RItem", "Product", FormMethod.Post, new { onkeydown = "return event.keyCode!=13" }))
+    {
+        @Html.HiddenFor(x => x.Id)
+        <div class="row">
+            <div class="col-md-3">
+                <a href="@Url.Action("RItemList","Product")" class="btn btn-primary mt-2">Item List</a>
+                <a href="@Url.Action("Home","Home")" class="btn btn-dark mt-2">Home</a>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Select Purchase Item</label>
+                        @Html.TextBoxFor(x => x.PurchaseItemCode, new { @class = "form-control"})
+                        @Html.HiddenFor(x=>x.PurchaseItem)
+                    </div>
+                    <div class="col-md-6">
+                        <label>Enter Production Item</label>
+                        @Html.TextBoxFor(x => x.SaleItemCode, new { @class = "form-control" })
+                        @Html.HiddenFor(x => x.SaleItem)
+                    </div>
+                    <div class="col-md-6">
+                        <label>Enter Pack</label>
+                        @Html.TextBoxFor(x => x.Pack, new { @class = "form-control", type = "number", Step = "0.01" })
+                    </div>
+                    <div class="col-md-6">
+                        <label>Enter Pack Qty</label>
+                        @Html.TextBoxFor(x => x.PackQty, new { @class = "form-control", type = "number", Step = "0.01" })
+                    </div>
+                    <div class="col-md-6">
+                        <label>Enter Stock In Hand</label>
+                        @Html.TextBoxFor(x => x.StockInHand, new { @class = "form-control", type = "number",@readonly="True" })
+                    </div>
+                    <div class="col-md-6">
+                        <input type="submit" class="btn btn-success form-control" value="Save Purchase Item" style="margin-top:24px" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    }
+
+</div>
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<link href="~/EditAbleJs/jquery-editable-select.min.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<script src="~/EditAbleJs/jquery-editable-select.min.js"></script>
+<link href="~/Kendo/kendo.common.min.css" rel="stylesheet" />
+<link href="~/Kendo/kendo.rtl.min.css" rel="stylesheet" />
+<link href="~/Kendo/kendo.default.min.css" rel="stylesheet" />
+<link href="~/Kendo/kendo.default.mobile.min.css" rel="stylesheet" />
+<script src="~/Kendo/jquery.min.js"></script>
+<script src="~/Kendo/jszip.min.js"></script>
+<script src="~/Kendo/kendo.all.min.js"></script>
+<script>
+    $(document).ready(function () {
+        dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/Product/getPItemR",
+                    dataType: "json"
+                }
+            }
+        });
+        dataSource1 = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/Product/getSItemR",
+                    dataType: "json"
+                }
+            }
+        });
+        $("#PurchaseItemCode").kendoMultiColumnComboBox({
+            dataTextField: "Item",
+            dataValueField: "Barcode",
+            height: 450,
+            columns: [
+                {
+                    field: "Barcode",
+                    title: "Barcode",
+                    width: 200
+                },
+                {
+                    field: "Item",
+                    title: "Item",
+                    width: 300
+                },
+                {
+                    field: "Size",
+                    title: "Size",
+                    width: 200
+                },
+                {
+                    field: "Unit",
+                    title: "Unit",
+                    width: 200
+                },
+                {
+                    field: "PackQty",
+                    title: "PackQty",
+                    width: 200
+                },
+                {
+                    field: "StockInHand",
+                    title: "StockInHand",
+                    width: 200
+                }
+            ],
+            filter: "contains",
+            filterFields: ["Barcode", "Item"],
+            dataSource: dataSource
+        });
+        $("#SaleItemCode").kendoMultiColumnComboBox({
+            dataTextField: "Item",
+            dataValueField: "Barcode",
+            height: 450,
+            columns: [
+                {
+                    field: "Barcode",
+                    title: "Barcode",
+                    width: 200
+                },
+                {
+                    field: "Item",
+                    title: "Item",
+                    width: 300
+                },
+                {
+                    field: "Size",
+                    title: "Size",
+                    width: 200
+                },
+                {
+                    field: "Unit",
+                    title: "Unit",
+                    width: 200
+                },
+                {
+                    field: "PackQty",
+                    title: "PackQty",
+                    width: 200
+                },
+                {
+                    field: "StockInHand",
+                    title: "StockInHand",
+                    width: 200
+                }
+            ],
+            filter: "contains",
+            filterFields: ["Barcode", "Item"],
+            dataSource: dataSource1
+        });
+        $("#PurchaseItemCode").change(function () {
+            var vid = $("#PurchaseItemCode").val();
+        $.ajax({
+            type: "POST",
+            url: "/Product/getPItemRecord",
+            data: '{bcode:"' + vid + '"}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                $("#PurchaseItem").val(result.Item);
+            }
+        });
+        });
+        $("#SaleItemCode").change(function () {
+            var vid = $("#SaleItemCode").val();
+            $.ajax({
+                type: "POST",
+                url: "/Product/getSItemRecord",
+                data: '{bcode:"' + vid + '"}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    $("#SaleItem").val(result.Item);
+                }
+            });
+        });
+        var pqty = document.getElementById("PackQty");
+        pqty.addEventListener("keyup", function (event) {
+            let pqtyVar = $("#PackQty").val();
+            let pVar = $("#Pack").val();
+            let sum = parseFloat(parseFloat(pqtyVar) * parseFloat(pVar));
+            $("#StockInHand").val(sum.toFixed(1));
+        });
+        var packed = document.getElementById("Pack");
+        packed.addEventListener("keyup", function (event) {
+            //alert("2222222222222222222");
+            let pqtyVar = $("#PackQty").val();
+            let pVar = $("#Pack").val();
+            let sum = parseFloat(parseFloat(pqtyVar) * parseFloat(pVar));
+            $("#StockInHand").val(sum.toFixed(1));
+        });
+    });
+</script>
+

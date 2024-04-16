@@ -1,0 +1,238 @@
+﻿@model IEnumerable<SialkotSweet.Models.TblSaleItem>
+@{
+    ViewBag.Title = "SItemStock";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    h3 {
+        text-align: center;
+    }
+</style>
+<div class="">
+    <div class="container-fluid p-2">
+        <div class="row">
+            <div class="col-md-2">
+                <input type="text" class="form-control" id="MyInput1" onkeyup="myFunction1()" placeholder="Barcode" />
+            </div>
+            <div class="col-md-2">
+                <input type="text" class="form-control" id="MyInput2" onkeyup="myFunction2()" placeholder="Item Name" />
+            </div>
+            <div class="col-md-2">
+                <input type="text" class="form-control" id="MyInput3" onkeyup="myFunction3()" placeholder="Size" />
+            </div>
+            <div class="col-md-2">
+                <a href="@Url.Action("Home","Home")" class="form-control btn btn-dark">Back to Home</a>
+            </div>
+            <div class="col-md-2">
+                <button class="form-control btn btn-warning ipt" name="b_print" onclick="printdiv('div_print');">Print</button>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-primary form-control" onclick="exportTableToExcel('ItemTable', 'Stock_Report')">Export to Excel</button>
+            </div>
+        </div>
+        <div class="table mt-3" id="div_print">
+            @*<center><b style="font-size:24px;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">CURRENT STOCK VALUE'S</b></center>*@
+            <div class="col-md-12">
+                <b style="font-size:22px;float:left;">@SialkotSweet.Controllers.SaleController.Receipt_Name()</b><br />
+                <b style="font-size:22px;float:right">CURRENT STOCK VALUE'S</b><br />
+                <b style="float:left">@SialkotSweet.Controllers.SaleController.Address()</b><br /><b>Contact No# @SialkotSweet.Controllers.SaleController.Mobile()  / @SialkotSweet.Controllers.SaleController.Phone() </b>
+                <b style="float:right">Print Date: @DateTime.Now.ToShortDateString()</b><br />
+            </div>
+            <div class="col-md-2" style="float:right">
+                <span style="float:right">No of Product's: <b>@Model.Count()</b> </span>
+            </div>
+            <table class="table table-bordered table-hover" id="ItemTable">
+                <thead>
+                    <tr>
+                        <th>Barcode</th>
+                        <th>Item</th>
+                        <th>Size</th>
+                        <th>Colour</th>
+                        <th>CostRate</th>
+                        <th>SaleRate</th>
+                        <th>PackQty</th>
+                        <th>StockInHand</th>
+                        <th>Current Stock</th>
+                        <th>Stock Value's</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var mode in Model)
+                    {
+                        if (mode.Stock > 5)
+                        {
+                            <tr>
+                                <td>@mode.Barcode</td>
+                                <td>@mode.Item</td>
+                                <td>@mode.Size</td>
+                                <td>@mode.Colour</td>
+                                <td>@mode.CostRate</td>
+                                <td>@mode.SaleRate</td>
+                                <td>@mode.PackQty @mode.Unit</td>
+                                <td style="background-color:rgba(247, 66, 94, 0.33);font-weight:bold">@mode.StockInHand @mode.Unit</td>
+                                <td style="background-color:rgba(109, 213, 114, 0.33);font-weight:bold">@mode.Stock @mode.Unit</td>
+                                <td style="font-weight:bold">
+                                    @{
+                                        decimal cost = Convert.ToDecimal(Convert.ToDecimal(mode.CostRate) * Convert.ToDecimal(mode.Stock));
+                                        ViewBag.sale = Convert.ToDecimal(Convert.ToDecimal(mode.SaleRate) * Convert.ToDecimal(mode.Stock));
+                                        decimal roundedValue = Math.Round(cost, 2);
+                                        ViewBag.cost = roundedValue;
+                                    }
+                                    @ViewBag.cost
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr style="background-color:rgba(196, 21, 21, 0.28)">
+                                <td>@mode.Barcode</td>
+                                <td>@mode.Item</td>
+                                <td>@mode.Size</td>
+                                <td>@mode.Colour</td>
+                                <td>@mode.CostRate</td>
+                                <td>@mode.SaleRate</td>
+                                <td>@mode.PackQty @mode.Unit</td>
+                                <td style="background-color:rgba(247, 66, 94, 0.33);font-weight:bold">@mode.StockInHand @mode.Unit</td>
+                                <td style="background-color:rgba(109, 213, 114, 0.33);font-weight:bold">@mode.Stock @mode.Unit</td>
+                                <td style="font-weight:bold">
+                                    @{
+                                        decimal cost = Convert.ToDecimal(Convert.ToDecimal(mode.CostRate) * Convert.ToDecimal(mode.Stock));
+                                        ViewBag.sale = Convert.ToDecimal(Convert.ToDecimal(mode.SaleRate) * Convert.ToDecimal(mode.Stock));
+                                        decimal roundedValue = Math.Round(cost, 2);
+                                        ViewBag.cost = roundedValue;
+                                    }
+                                    @ViewBag.cost
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<style>
+    table {
+    }
+
+        table thead tr th {
+            font-size: 14px;
+        }
+
+        table tbody tr td {
+            font-size: 12px;
+        }
+</style>
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<link href="~/EditAbleJs/jquery-editable-select.min.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<script src="~/EditAbleJs/jquery-editable-select.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.2/xlsx.full.min.js"></script>
+<script>
+    function exportTableToExcel(tableID, filename) {
+        const table = document.getElementById(tableID);
+        const wb = XLSX.utils.table_to_book(table, { sheet: "Sheet1" });
+
+        // Modify date cells to use custom number format
+        const ws = wb.Sheets.Sheet1;
+        for (const cell in ws) {
+            if (cell.startsWith('C') && ws[cell].t === 'd') {
+                ws[cell].z = 'dd/mm/yyyy'; // Custom number format
+            }
+        }
+
+        // Generate the XLSX file
+        const wbout = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+
+        // Convert to Blob and create a download link
+        const blob = new Blob([wbout], { type: "application/octet-stream" });
+        const url = URL.createObjectURL(blob);
+
+        // Create a download link and trigger the download
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `${filename}.xlsx`;
+        a.click();
+
+        // Clean up
+        setTimeout(() => {
+            URL.revokeObjectURL(url);
+        }, 100);
+    };
+    function myFunction1() {
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("MyInput1");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("ItemTable");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    };
+    function myFunction2() {
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("MyInput2");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("ItemTable");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[1];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    };
+    function myFunction3() {
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("MyInput3");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("ItemTable");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[2];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    };
+    function printdiv(printpage) {
+        var headstr = "<html><head><title></title></head><body>";
+        var footstr = "</body>";
+        var newstr = document.all.item(printpage).innerHTML;
+        var oldstr = document.body.innerHTML;
+        document.body.innerHTML = headstr + newstr + footstr;
+        window.print();
+        document.body.innerHTML = oldstr;
+        return false;
+    };
+</script>
+

@@ -1,0 +1,124 @@
+﻿@model SialkotSweet.Models.TblInOutBook
+@{
+    ViewBag.Title = "Expense";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container-fluid p-5">
+    <div class="row">
+        <div class="col-md-2">
+            <a href="@Url.Action("Home", "Home")" class="btn btn-dark form-control">Back</a>
+        </div>
+        <div class="col-md-2">
+            <a href="@Url.Action("Account", "Expense")" class="btn btn-secondary form-control">New Accounts</a>
+        </div>
+        <div class="col-md-2">
+            <a href="@Url.Action("List", "Expense")" class="btn btn-primary form-control">Ledger List</a>
+        </div>
+        <div class="col-md-2">
+            <a href="@Url.Action("ListReport", "Expense")" class="btn btn-info form-control">Ledger Account Report</a>
+        </div>
+        <div class="col-md-2">
+            <a href="@Url.Action("NameListReport", "Expense")" class="btn btn-danger form-control">Ledger Name Report</a>
+        </div>
+    </div>
+    <p><b>@ViewBag.msg</b></p>
+    @using (Html.BeginForm("Expense", "Expense"))
+    {
+        <div class="row mt-2">
+            <div class="col-md-4">
+                <label>Select Account</label>
+                @Html.TextBoxFor(x => x.AccountCode, new { @class = "form-control form-control-lg", placeholder = "Select Expensse Account" })
+                @Html.HiddenFor(x => x.AccountName, new { @class = "form-control" })
+                @Html.HiddenFor(x => x.Id, new { @class = "form-control" })
+            </div>
+            <div class="col-md-4">
+                <label>Select Date</label>
+                @Html.TextBoxFor(x => x.Date, "{0:yyyy-MM-dd}", new { @class = "form-control form-control-lg" })
+            </div>
+            <div class="col-md-4">
+                <label>Enter Name Person</label>
+                @Html.DropDownListFor(x=>x.NamePerson, new List<SelectListItem>
+                                          {
+                                             new SelectListItem{ Text="Select Ledger Type", Value = "" },
+                                             new SelectListItem{ Text="Expense", Value = "Expense" },
+                                             new SelectListItem{ Text="Purchase", Value = "Purchase" },
+                                             new SelectListItem{ Text="Sale", Value = "Sale" },
+                                             new SelectListItem{ Text="Salaries", Value = "Salaries" },
+                                             new SelectListItem{ Text="Labour Costing", Value = "Labour Costing" },
+                                             new SelectListItem{ Text="Mentinance", Value = "Mentinance" },
+                                             new SelectListItem{ Text="Others", Value = "Others" },
+                                          }, new { @class = "form-control" })
+            </div>
+            <div class="col-md-8">
+                <label>Enter Details</label>
+                @Html.TextBoxFor(x => x.Detail, new { @class = "form-control form-control-lg" })
+            </div>
+            <div class="col-md-2">
+                <label>Enter PayIn</label>
+                @Html.TextBoxFor(x => x.PayIn, new { @class = "form-control form-control-lg", @Step = "0.01", @type = "number" })
+            </div>
+            <div class="col-md-2">
+                <label>Enter PayOut</label>
+                @Html.TextBoxFor(x => x.PayOut, new { @class = "form-control form-control-lg", @Step = "0.01", @type = "number" })
+            </div>
+        </div>
+        <div class="col-md-2" style="float:right">
+            <input type="submit" name="submit" value="Save Expense" class="btn btn-success form-control" style="margin-top:24px" onclick="save()" />
+        </div>
+    }
+    <br /><br /><br />
+</div>
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<link href="~/KendoUI/default-ocean-blue.css" rel="stylesheet" />
+<script src="~/KendoUI/jquery.min.js"></script>
+<script src="~/KendoUI/jszip.min.js"></script>
+<script src="~/KendoUI/kendo.all.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#Date").kendoDatePicker({ value: new Date(), format: "yyyy-MM-dd", });
+        dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/Expense/getAccount",
+                    dataType: "json"
+                }
+            }
+        });
+        $("#AccountCode").kendoMultiColumnComboBox({
+            dataTextField: "AccountName",
+            dataValueField: "AccountCode",
+            height: 450,
+            columns: [
+                {
+                    field: "AccountCode",
+                    title: "Account Code",
+                    width: 200
+                },
+                {
+                    field: "AccountName",
+                    title: "Account Name",
+                    width: 400
+                }
+            ],
+            filter: "contains",
+            filterFields: ["AccountCode", "AccountName"],
+            dataSource: dataSource
+        });
+        $("#AccountCode").change(function () {
+            var vid = $("#AccountCode").val();
+            $.ajax({
+                type: "POST",
+                url: "/Expense/getAccountRecord",
+                data: '{vid:"' + vid + '"}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    $("#AccountCode").val(result.AccountCode);
+                    $("#AccountName").val(result.AccountName);
+                }
+            });
+        });
+    });
+</script>
+
